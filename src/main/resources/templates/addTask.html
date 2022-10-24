@@ -23,10 +23,10 @@
         <a class="navbar-brand" href="#">TODO list</a>
     </nav>
     <div>
-        <form th:action="@{/createTask}" th:object="${item}" method="POST">
+        <form th:action="@{/createTask}" method="POST">
             <div class="form-group">
                 <label>Описание задачи</label>
-                <input type="text" class="form-control" th:field="*{name}">
+                <input type="text" class="form-control" name="description" id="description">
             </div>
             <button type="submit" class="btn btn-primary mt-3">OK</button>
         </form>
