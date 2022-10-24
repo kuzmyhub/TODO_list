@@ -34,4 +34,29 @@ public class TaskStore {
         session.close();
         return list;
     }
+
+    public List<Item> findByDoneTrue() {
+        Session session = sf.openSession();
+        List list = session.createQuery("FROM Item i WHERE i.done = true").list();
+        session.close();
+        return list;
+    }
+
+    public List<Item> findByDoneFalse() {
+        Session session = sf.openSession();
+        List list = session.createQuery("FROM Item i WHERE i.done = false").list();
+        session.close();
+        return list;
+    }
+
+    public Item findById(int id) {
+        Session session = sf.openSession();
+        Object item = session.createQuery(
+                "FROM Item i WHERE i.id = :fId"
+        )
+                .setParameter("fId", id)
+                .getSingleResult();
+        session.close();
+        return (Item) item;
+    }
 }

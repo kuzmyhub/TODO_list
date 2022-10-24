@@ -17,7 +17,7 @@
 
     <title>TODO list</title>
     <style>
-      p {
+      .reduction {
           width: 100px;
           white-space: nowrap;
           overflow: hidden;
@@ -33,6 +33,10 @@
           padding-right: 50px;
           padding-left: 50px;
       }
+      .indent_a {
+          padding-right: 10px;
+          padding-left: 10px;
+      }
    </style>
 </head>
 <body>
@@ -46,21 +50,11 @@
                 Добавить задачу
             </button>
         </form>
-        <form th:action="@{/formAddTask}" style="display:inline;">
-            <button type="submit" class="btn btn-primary">
-                Все
-            </button>
-        </form>
-        <form th:action="@{/formAddTask}" style="display:inline;">
-            <button type="submit" class="btn btn-primary">
-                Выполненные
-            </button>
-        </form>
-        <form th:action="@{/formAddTask}" style="display:inline;">
-            <button type="submit" class="btn btn-primary">
-                Не выполненные
-            </button>
-        </form>
+
+        <a th:href="@{/todo}" class="indent_a">Все</a>
+        <a th:href="@{/todo?done=1}" class="indent_a">Выполненные</a>
+        <a th:href="@{/todo?done=0}" class="indent_a">Не выполненные</a>
+
     </div>
     <table border="1" style="display: inline-block;">
         <thead>
@@ -73,7 +67,7 @@
         <tbody>
         <tr th:each="task: ${tasks}">
             <td>
-                <p th:text="${task.description}"></p>
+                <a th:href="@{|/openTask/${task.id}|}" th:text="${task.description}" class="reduction"></a>
             </td>
             <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}"></td>
             <td th:text="${task.done}"></td>

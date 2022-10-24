@@ -21,4 +21,16 @@ public class TaskService {
     public List<Item> findAll() {
         return store.findAll();
     }
+
+    public List<Item> findByDoneTrue() {
+        return store.findByDoneTrue();
+    }
+
+    public List<Item> findByDoneFalse() {
+        return store.findByDoneFalse();
+    }
+
+    public Item findById(int id) {
+        return store.findById(id);
+    }
 }
