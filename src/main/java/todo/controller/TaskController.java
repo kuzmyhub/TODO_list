@@ -40,9 +40,11 @@ public class TaskController {
 
     @GetMapping("/openTask/{id}")
     public String openTask(Model model,
-                           @PathVariable("id") int id) {
+                           @PathVariable("id") int id,
+                           @RequestParam(name = "success", required = false) boolean success) {
         Item item = taskService.findById(id);
         model.addAttribute("task", item);
+        model.addAttribute("success", success);
         return "task";
     }
 
@@ -51,10 +53,24 @@ public class TaskController {
         Item item = taskService.findById(id);
         boolean done = item.isDone();
         if (done) {
-            taskService.update(id, false);
+            taskService.updateDone(id, false);
         } else {
-            taskService.update(id, true);
+            taskService.updateDone(id, true);
         }
-        return "redirect:/openTask/" + id;
+        return "redirect:/openTask/" + id + "?status=true";
+    }
+
+    @GetMapping("/formEditDescription")
+    public String changeDescription(Model model, @ModelAttribute("id") int id) {
+        Item item = taskService.findById(id);
+        model.addAttribute("task", item);
+        return "editDescription";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute("task") Item item) {
+        System.out.println(item + "item");
+        taskService.updateDescription(item.getId(), item.getDescription());
+        return "redirect:/openTask/" + item.getId();
     }
 }

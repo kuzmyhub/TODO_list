@@ -34,7 +34,11 @@ public class TaskService {
         return store.findById(id);
     }
 
-    public void update(int id, boolean done) {
-        store.update(id, done);
+    public void updateDone(int id, boolean done) {
+        store.updateDone(id, done);
+    }
+
+    public void updateDescription(int id, String description) {
+        store.updateDescription(id, description);
     }
 }

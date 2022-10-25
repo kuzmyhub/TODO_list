@@ -25,4 +25,9 @@ public class Item {
     public Item(String description) {
         this.description = description;
     }
+
+    public Item(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 }
