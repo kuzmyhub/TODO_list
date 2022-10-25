@@ -15,7 +15,10 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/todo")
-    public String getTasks(@RequestParam (name = "done", required = false) String done, Model model) {
+    public String getTasks(@RequestParam (name = "done", required = false) String done,
+                           @RequestParam (name = "delete", required = false) Boolean delete,
+                           Model model) {
+        model.addAttribute("delete", delete);
         if (done == null) {
             model.addAttribute("tasks", taskService.findAll());
         } else if (done.equals("1")) {
@@ -77,6 +80,6 @@ public class TaskController {
     @GetMapping("/delete")
     public String delete(@ModelAttribute("id") int id) {
         taskService.delete(id);
-        return "redirect:/todo";
+        return "redirect:/todo?delete=true";
     }
 }

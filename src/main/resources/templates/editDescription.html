@@ -28,6 +28,10 @@
 </head>
 <body>
 <div class="container pt-3" style="text-align: center;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">TODO list</a>
+    </nav>
+<div class="container pt-3" style="text-align: center;">
     <div class="card-body">
         <form th:action="@{/edit}" method="POST">
             <div class="form-group">
@@ -37,6 +41,7 @@
             <button type="submit" name="id" th:value="${task.id}" class="btn btn-primary mt-3">OK</button>
         </form>
     </div>
+</div>
 </div>
 </body>
 </html>

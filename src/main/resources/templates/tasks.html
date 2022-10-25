@@ -44,6 +44,11 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">TODO list</a>
     </nav>
+
+    <div th:if="${delete}" class="alert alert-danger" role="alert">
+        <p>Задача удалена</p>
+    </div>
+
     <div class="indent_div">
         <form th:action="@{/formAddTask}" style="display:inline;" class="indent_form">
             <button type="submit" class="btn btn-primary">
