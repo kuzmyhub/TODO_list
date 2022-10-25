@@ -59,4 +59,17 @@ public class TaskStore {
         session.close();
         return (Item) item;
     }
+
+    public void update(int id, boolean done) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        session.createQuery(
+                "UPDATE Item SET done = :fDone WHERE id = :fId"
+                )
+                .setParameter("fDone", done)
+                .setParameter("fId", id)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+    }
 }

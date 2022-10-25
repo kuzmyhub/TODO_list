@@ -33,4 +33,8 @@ public class TaskService {
     public Item findById(int id) {
         return store.findById(id);
     }
+
+    public void update(int id, boolean done) {
+        store.update(id, done);
+    }
 }

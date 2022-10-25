@@ -39,9 +39,22 @@ public class TaskController {
     }
 
     @GetMapping("/openTask/{id}")
-    public String openTask(Model model, @PathVariable("id") int id) {
-        model.addAttribute("task", taskService.findById(id));
+    public String openTask(Model model,
+                           @PathVariable("id") int id) {
+        Item item = taskService.findById(id);
+        model.addAttribute("task", item);
         return "task";
     }
 
+    @GetMapping("/changeStatus")
+    public String changeStatus(@ModelAttribute("id") int id) {
+        Item item = taskService.findById(id);
+        boolean done = item.isDone();
+        if (done) {
+            taskService.update(id, false);
+        } else {
+            taskService.update(id, true);
+        }
+        return "redirect:/openTask/" + id;
+    }
 }

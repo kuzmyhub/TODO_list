@@ -31,14 +31,18 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">TODO list</a>
   </nav>
+  <div th:if="${success}" class="alert alert-danger" role="alert">
+    <p>Состояние задачи изменено на:</p>
+    <p th:text="${status}"></p>
+  </div>
 
   <p class="indent_top">
     <b>Подробное описание задачи</b>
   </p>
   <p th:text="${task.description}" class="indent_bot"></p>
 
-  <form th:action="@{/}">
-    <button type="submit" name="id" th:value=${} class="btn btn-primary">Изменить состояние задачи</button>
+  <form th:action="@{/changeStatus}">
+    <button type="submit" name="id" th:value="${task.id}" class="btn btn-primary">Изменить состояние задачи</button>
   </form>
 
 </div>
