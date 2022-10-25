@@ -41,4 +41,8 @@ public class TaskService {
     public void updateDescription(int id, String description) {
         store.updateDescription(id, description);
     }
+
+    public void delete(int id) {
+        store.delete(id);
+    }
 }

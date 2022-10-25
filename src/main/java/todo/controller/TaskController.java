@@ -57,7 +57,7 @@ public class TaskController {
         } else {
             taskService.updateDone(id, true);
         }
-        return "redirect:/openTask/" + id + "?status=true";
+        return "redirect:/openTask/" + id + "?success=true";
     }
 
     @GetMapping("/formEditDescription")
@@ -72,5 +72,11 @@ public class TaskController {
         System.out.println(item + "item");
         taskService.updateDescription(item.getId(), item.getDescription());
         return "redirect:/openTask/" + item.getId();
+    }
+
+    @GetMapping("/delete")
+    public String delete(@ModelAttribute("id") int id) {
+        taskService.delete(id);
+        return "redirect:/todo";
     }
 }

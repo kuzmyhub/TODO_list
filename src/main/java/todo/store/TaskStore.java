@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.engine.jdbc.connections.internal.UserSuppliedConnectionProviderImpl;
 import org.springframework.stereotype.Repository;
 import todo.model.Item;
 
@@ -62,27 +63,51 @@ public class TaskStore {
 
     public void updateDone(int id, boolean done) {
         Session session = sf.openSession();
-        session.beginTransaction();
-        session.createQuery(
-                "UPDATE Item SET done = :fDone WHERE id = :fId"
-                )
-                .setParameter("fDone", done)
-                .setParameter("fId", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
+        try {
+            session.beginTransaction();
+            session.createQuery(
+                            "UPDATE Item SET done = :fDone WHERE id = :fId"
+                    )
+                    .setParameter("fDone", done)
+                    .setParameter("fId", id)
+                    .executeUpdate();
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
     }
 
     public void updateDescription(int id, String description) {
         Session session = sf.openSession();
-        session.beginTransaction();
-        session.createQuery(
-                        "UPDATE Item SET description = :fDescription WHERE id = :fId"
-                )
-                .setParameter("fDescription", description)
-                .setParameter("fId", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
+        try {
+            session.beginTransaction();
+            session.createQuery(
+                            "UPDATE Item SET description = :fDescription WHERE id = :fId"
+                    )
+                    .setParameter("fDescription", description)
+                    .setParameter("fId", id)
+                    .executeUpdate();
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void delete(int id) {
+        Session session = sf.openSession();
+        try {
+            session.beginTransaction();
+            session.createQuery(
+                            "DELETE Item i WHERE i.id = :fId"
+                    )
+                    .setParameter("fId", id)
+                    .executeUpdate();
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
     }
 }
