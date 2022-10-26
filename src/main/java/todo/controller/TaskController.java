@@ -64,7 +64,7 @@ public class TaskController {
     }
 
     @GetMapping("/formEditDescription")
-    public String changeDescription(Model model, @ModelAttribute("id") int id) {
+    public String editDescription(Model model, @ModelAttribute("id") int id) {
         Item item = taskService.findById(id);
         model.addAttribute("task", item);
         return "editDescription";

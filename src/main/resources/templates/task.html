@@ -32,7 +32,7 @@
     <a class="navbar-brand" href="#">TODO list</a>
   </nav>
 
-  <div th:if="${success}" class="alert alert-danger" role="alert">
+  <div th:if="${success}" class="alert alert-success" role="alert">
     <p>Состояние задачи изменено на:</p>
     <p th:text="${task.done}"></p>
   </div>

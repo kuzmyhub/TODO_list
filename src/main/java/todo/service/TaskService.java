@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TaskService {
+
     private final TaskStore store;
 
     public Item add(Item item) {
