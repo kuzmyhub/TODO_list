@@ -32,14 +32,16 @@
             <span> | Выйти</span>
         </a>
     </nav>
-    <div>
+    <div class="container pt-3" style="text-align: center;">
+        <div class="card-body">
         <form th:action="@{/createTask}" method="POST">
             <div class="form-group">
-                <label>Описание задачи</label>
+                <label><b>Описание добавляемой задачи</b></label>
                 <input type="text" class="form-control" name="description" id="description">
             </div>
             <button type="submit" class="btn btn-primary mt-3">OK</button>
         </form>
+        </div>
     </div>
 </div>
 </body>

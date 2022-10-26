@@ -45,7 +45,7 @@
     <div class="card-body">
         <form th:action="@{/edit}" method="POST">
             <div class="form-group">
-                <label for="description">Описание</label>
+                <label for="description"><b>Описание задачи</b></label>
                 <input type="text" class="form-control" name="description" id="description" th:value="${task.description}">
             </div>
             <button type="submit" name="id" th:value="${task.id}" class="btn btn-primary mt-3">OK</button>
