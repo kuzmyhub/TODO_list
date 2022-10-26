@@ -6,7 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import todo.model.Item;
+import todo.model.User;
 import todo.service.TaskService;
+import todo.util.SessionUser;
+
+import javax.servlet.http.HttpSession;
 
 @ThreadSafe
 @Controller
@@ -17,8 +21,10 @@ public class TaskController {
     @GetMapping("/todo")
     public String getTasks(@RequestParam (name = "done", required = false) String done,
                            @RequestParam (name = "delete", required = false) Boolean delete,
-                           Model model) {
+                           Model model, HttpSession httpSession) {
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("delete", delete);
+        model.addAttribute("user", user);
         if (done == null) {
             model.addAttribute("tasks", taskService.findAll());
         } else if (done.equals("1")) {
@@ -30,8 +36,10 @@ public class TaskController {
     }
 
     @GetMapping("/formAddTask")
-    public String addTask(Model model) {
+    public String addTask(Model model, HttpSession httpSession) {
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("item", new Item());
+        model.addAttribute("user", user);
         return "addTask";
     }
 
@@ -44,10 +52,14 @@ public class TaskController {
     @GetMapping("/openTask/{id}")
     public String openTask(Model model,
                            @PathVariable("id") int id,
-                           @RequestParam(name = "success", required = false) boolean success) {
+                           @RequestParam(
+                                   name = "success", required = false
+                           ) boolean success, HttpSession httpSession) {
         Item item = taskService.findById(id);
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("task", item);
         model.addAttribute("success", success);
+        model.addAttribute("user", user);
         return "task";
     }
 
@@ -64,9 +76,12 @@ public class TaskController {
     }
 
     @GetMapping("/formEditDescription")
-    public String editDescription(Model model, @ModelAttribute("id") int id) {
+    public String editDescription(Model model, @ModelAttribute("id") int id,
+                                  HttpSession httpSession) {
         Item item = taskService.findById(id);
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("task", item);
+        model.addAttribute("user", user);
         return "editDescription";
     }
 

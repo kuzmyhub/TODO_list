@@ -23,6 +23,14 @@
         <a class="navbar-brand" th:href="@{/todo}">TODO list</a>
         <a class="navbar-brand" th:href="@{/formLoginUser}">Авторизоваться</a>
         <a class="navbar-brand" th:href="@{/formRegistrationUser}">Зарегистрироваться</a>
+        <a class="navbar-brand" th:if="${user.name == 'Гость'}" th:href="@{/formLoginUser}">
+            <span th:text="${user.name}"></span>
+            <span> | Войти</span>
+        </a>
+        <a class="navbar-brand" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+            <span th:text="${user.name}"></span>
+            <span> | Выйти</span>
+        </a>
     </nav>
 
     <div th:if="${registrationSuccess != null and registrationSuccess == false}" class="alert alert-danger" role="alert">
@@ -38,6 +46,7 @@
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
+                <p><b>Регистрация</b></p>
                 <p>Заполните все поля</p>
             </div>
             <div class="card-body">

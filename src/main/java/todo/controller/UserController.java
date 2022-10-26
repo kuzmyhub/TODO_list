@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import todo.model.User;
 import todo.service.UserService;
+import todo.util.SessionUser;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @ThreadSafe
@@ -23,8 +26,10 @@ public class UserController {
     @GetMapping("/formRegistrationUser")
     public String formRegistrationUser(Model model, @RequestParam(
             name = "registrationSuccess", required = false
-    ) Boolean registrationSuccess) {
+    ) Boolean registrationSuccess, HttpSession httpSession) {
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("registrationSuccess", registrationSuccess);
+        model.addAttribute("user", user);
         return "registrationUser";
     }
 
@@ -40,17 +45,28 @@ public class UserController {
     @GetMapping("/formLoginUser")
     public String formLoginUser(Model model, @RequestParam(
             name = "loginSuccess", required = false
-    ) Boolean loginSuccess) {
+    ) Boolean loginSuccess, HttpSession httpSession) {
+        User user = SessionUser.getSession(httpSession);
         model.addAttribute("loginSuccess", loginSuccess);
+        model.addAttribute("user", user);
         return "loginUser";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user) {
+    public String login(@ModelAttribute User user,
+                        HttpServletRequest req) {
         Optional<User> loginUser = userService.findByLoginAndPwd(user);
         if (loginUser.isEmpty()) {
             return "redirect:/formLoginUser?loginSuccess=false";
         }
+        HttpSession httpSession = req.getSession();
+        httpSession.setAttribute("user", loginUser.get());
         return "redirect:/todo";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "redirect:/formLoginUser";
     }
 }

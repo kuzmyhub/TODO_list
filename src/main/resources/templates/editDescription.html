@@ -29,7 +29,17 @@
 <body>
 <div class="container pt-3" style="text-align: center;">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">TODO list</a>
+        <a class="navbar-brand" th:href="@{/todo}">TODO list</a>
+        <a class="navbar-brand" th:href="@{/formLoginUser}">Авторизоваться</a>
+        <a class="navbar-brand" th:href="@{/formRegistrationUser}">Зарегистрироваться</a>
+        <a class="navbar-brand" th:if="${user.name == 'Гость'}" th:href="@{/formLoginUser}">
+            <span th:text="${user.name}"></span>
+            <span> | Войти</span>
+        </a>
+        <a class="navbar-brand" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+            <span th:text="${user.name}"></span>
+            <span> | Выйти</span>
+        </a>
     </nav>
 <div class="container pt-3" style="text-align: center;">
     <div class="card-body">
