@@ -77,7 +77,8 @@ public class TaskController {
     }
 
     @GetMapping("/formEditDescription")
-    public String editDescription(Model model, @ModelAttribute("id") int id,
+    public String editDescription(Model model,
+                                  @ModelAttribute("id") int id,
                                   HttpSession httpSession) {
         Item item = taskService.findById(id);
         User user = SessionUser.getSession(httpSession);
