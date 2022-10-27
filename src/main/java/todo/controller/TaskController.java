@@ -26,11 +26,11 @@ public class TaskController {
         model.addAttribute("delete", delete);
         model.addAttribute("user", user);
         if (done == null) {
-            model.addAttribute("tasks", taskService.findAll());
+            model.addAttribute("tasks", taskService.findAll(user));
         } else if (done.equals("1")) {
-            model.addAttribute("tasks", taskService.findByDoneTrue());
+            model.addAttribute("tasks", taskService.findByDoneTrue(user));
         } else if (done.equals("0")) {
-            model.addAttribute("tasks", taskService.findByDoneFalse());
+            model.addAttribute("tasks", taskService.findByDoneFalse(user));
         }
         return "tasks";
     }
@@ -40,6 +40,7 @@ public class TaskController {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("item", new Item());
         model.addAttribute("user", user);
+        model.addAttribute("clientId", user.getId());
         return "addTask";
     }
 

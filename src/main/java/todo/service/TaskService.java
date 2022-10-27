@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import todo.model.Item;
+import todo.model.User;
 import todo.store.TaskStore;
 
 import java.util.List;
@@ -19,16 +20,16 @@ public class TaskService {
         return store.add(item);
     }
 
-    public List<Item> findAll() {
-        return store.findAll();
+    public List<Item> findAll(User user) {
+        return store.findAll(user);
     }
 
-    public List<Item> findByDoneTrue() {
-        return store.findByDoneTrue();
+    public List<Item> findByDoneTrue(User user) {
+        return store.findByDoneTrue(user);
     }
 
-    public List<Item> findByDoneFalse() {
-        return store.findByDoneFalse();
+    public List<Item> findByDoneFalse(User user) {
+        return store.findByDoneFalse(user);
     }
 
     public Item findById(int id) {

@@ -33,6 +33,14 @@
 
 ## Интерфейс сайта
 
+### Регистрация
+
+![jmap1](img/registration.png)
+
+### Авторизация
+
+![jmap1](img/authorization.png)
+
 ### Главная страница (все задачи)
 
 ![jmap1](img/homePage.png)
@@ -64,6 +72,11 @@
 ### Удаление задачи
 
 ![jmap1](img/deleted.png)
+
+## Контакты
+
+Telegram: @smith_serg
+Email: kuznetsov.s.i@bk.ru
 
 
 

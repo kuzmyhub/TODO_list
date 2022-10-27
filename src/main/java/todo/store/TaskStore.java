@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.internal.UserSuppliedConnectionProviderImpl;
 import org.springframework.stereotype.Repository;
 import todo.model.Item;
+import todo.model.User;
 
 import java.util.List;
 
@@ -25,27 +26,37 @@ public class TaskStore {
         return item;
     }
 
-    public List<Item> findAll() {
+    public List<Item> findAll(User user) {
         Session session = sf.openSession();
         session.beginTransaction();
         List list = session.createQuery(
-                "FROM Item", Item.class
-        ).list();
+                "FROM Item i WHERE i.client = :fUserId", Item.class
+        )
+                .setParameter("fUserId", user.getId())
+                .list();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    public List<Item> findByDoneTrue() {
+    public List<Item> findByDoneTrue(User user) {
         Session session = sf.openSession();
-        List list = session.createQuery("FROM Item i WHERE i.done = true").list();
+        List list = session.createQuery(
+                "FROM Item i WHERE i.client = :fUserId AND i.done = true"
+        )
+                .setParameter("fUserId", user.getId())
+                .list();
         session.close();
         return list;
     }
 
-    public List<Item> findByDoneFalse() {
+    public List<Item> findByDoneFalse(User user) {
         Session session = sf.openSession();
-        List list = session.createQuery("FROM Item i WHERE i.done = false").list();
+        List list = session.createQuery(
+                "FROM Item i WHERE i.client = :fUserId AND i.done = false"
+        )
+                .setParameter("fUserId", user.getId())
+                .list();
         session.close();
         return list;
     }
