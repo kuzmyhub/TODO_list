@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 @AllArgsConstructor
 public class TaskStore {
+    private final CrudRepository crudRepository;
     private final SessionFactory sf;
 
     public Item add(Item item) {
