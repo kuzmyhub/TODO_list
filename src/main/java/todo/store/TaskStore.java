@@ -10,116 +10,70 @@ import todo.model.Item;
 import todo.model.User;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @ThreadSafe
 @Repository
 @AllArgsConstructor
 public class TaskStore {
+
     private final CrudRepository crudRepository;
-    private final SessionFactory sf;
 
     public Item add(Item item) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        crudRepository.run(session -> session.save(item));
         return item;
     }
 
     public List<Item> findAll(User user) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List list = session.createQuery(
-                "FROM Item i WHERE i.client = :fUserId", Item.class
-        )
-                .setParameter("fUserId", user.getId())
-                .list();
-        session.getTransaction().commit();
-        session.close();
-        return list;
+        return crudRepository.query(
+                "FROM Item i WHERE i.client = :fUserId",
+                Item.class,
+                Map.of("fUserId", user.getId())
+        );
     }
 
     public List<Item> findByDoneTrue(User user) {
-        Session session = sf.openSession();
-        List list = session.createQuery(
-                "FROM Item i WHERE i.client = :fUserId AND i.done = true"
-        )
-                .setParameter("fUserId", user.getId())
-                .list();
-        session.close();
-        return list;
+        return crudRepository.query(
+                "FROM Item i WHERE i.client = :fUserId AND i.done = true",
+                Item.class,
+                Map.of("fUserId", user.getId())
+        );
     }
 
     public List<Item> findByDoneFalse(User user) {
-        Session session = sf.openSession();
-        List list = session.createQuery(
-                "FROM Item i WHERE i.client = :fUserId AND i.done = false"
-        )
-                .setParameter("fUserId", user.getId())
-                .list();
-        session.close();
-        return list;
+        return crudRepository.query(
+                "FROM Item i WHERE i.client = :fUserId AND i.done = false",
+                Item.class,
+                Map.of("fUserId", user.getId())
+        );
     }
 
-    public Item findById(int id) {
-        Session session = sf.openSession();
-        Object item = session.createQuery(
-                "FROM Item i WHERE i.id = :fId"
-        )
-                .setParameter("fId", id)
-                .getSingleResult();
-        session.close();
-        return (Item) item;
+    public Optional<Item> findById(int id) {
+        return crudRepository.optional(
+                "FROM Item i WHERE i.id = :fId",
+                Item.class,
+                Map.of("fId", id));
     }
 
     public void updateDone(int id, boolean done) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.createQuery(
-                            "UPDATE Item SET done = :fDone WHERE id = :fId"
-                    )
-                    .setParameter("fDone", done)
-                    .setParameter("fId", id)
-                    .executeUpdate();
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
+        crudRepository.run(
+                "UPDATE Item SET done = :fDone WHERE id = :fId",
+                Map.of("fDone", done, "fId", id)
+        );
     }
 
     public void updateDescription(int id, String description) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.createQuery(
-                            "UPDATE Item SET description = :fDescription WHERE id = :fId"
-                    )
-                    .setParameter("fDescription", description)
-                    .setParameter("fId", id)
-                    .executeUpdate();
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
+        crudRepository.run(
+                "UPDATE Item SET description = :fDescription WHERE id = :fId",
+                Map.of("fDescription", description, "fId", id)
+        );
     }
 
     public void delete(int id) {
-        Session session = sf.openSession();
-        try {
-            session.beginTransaction();
-            session.createQuery(
-                            "DELETE Item i WHERE i.id = :fId"
-                    )
-                    .setParameter("fId", id)
-                    .executeUpdate();
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
+        crudRepository.run(
+                "DELETE Item i WHERE i.id = :fId",
+                Map.of("fId", id)
+        );
     }
 }

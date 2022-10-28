@@ -11,6 +11,7 @@ import todo.service.TaskService;
 import todo.util.SessionUser;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @ThreadSafe
 @Controller
@@ -56,7 +57,11 @@ public class TaskController {
                            @RequestParam(
                                    name = "success", required = false
                            ) boolean success, HttpSession httpSession) {
-        Item item = taskService.findById(id);
+        Optional<Item> optionalItem = taskService.findById(id);
+        if (optionalItem.isEmpty()) {
+            return "redirect:/todo";
+        }
+        Item item = optionalItem.get();
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("task", item);
         model.addAttribute("success", success);
@@ -66,7 +71,11 @@ public class TaskController {
 
     @GetMapping("/changeStatus")
     public String changeStatus(@ModelAttribute("id") int id) {
-        Item item = taskService.findById(id);
+        Optional<Item> optionalItem = taskService.findById(id);
+        if (optionalItem.isEmpty()) {
+            return "redirect:/todo";
+        }
+        Item item = optionalItem.get();
         boolean done = item.isDone();
         if (done) {
             taskService.updateDone(id, false);
@@ -80,7 +89,11 @@ public class TaskController {
     public String editDescription(Model model,
                                   @ModelAttribute("id") int id,
                                   HttpSession httpSession) {
-        Item item = taskService.findById(id);
+        Optional<Item> optionalItem = taskService.findById(id);
+        if (optionalItem.isEmpty()) {
+            return "redirect:/todo";
+        }
+        Item item = optionalItem.get();
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("task", item);
         model.addAttribute("user", user);

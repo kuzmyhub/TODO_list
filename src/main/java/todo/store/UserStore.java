@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import todo.model.User;
 
+import java.util.Map;
 import java.util.Optional;
 
 @ThreadSafe
@@ -14,32 +15,24 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserStore {
 
-    private SessionFactory sf;
+    private final CrudRepository crudRepository;
 
     public Optional<User> add(User user) {
-        Session session = sf.openSession();
-        Optional<User> addingUser = Optional.empty();
+        Optional<User> addingUser;
         try {
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
+            crudRepository.run(session -> session.save(user));
             addingUser = Optional.of(user);
-            session.close();
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            addingUser = Optional.empty();
         }
         return addingUser;
     }
 
     public Optional<User> findByLoginAndPwd(User user) {
-        Session session = sf.openSession();
-        Optional<User> findingUser = session.createQuery(
-                "FROM User u WHERE u.login = :fLogin AND u.password = :fPassword"
-                )
-                .setParameter("fLogin", user.getLogin())
-                .setParameter("fPassword", user.getPassword())
-                .uniqueResultOptional();
-        session.close();
-        return findingUser;
+        return crudRepository.optional(
+                "FROM User u WHERE u.login = :fLogin AND u.password = :fPassword",
+                User.class,
+                Map.of("fLogin", user.getLogin(), "fPassword", user.getPassword())
+        );
     }
 }

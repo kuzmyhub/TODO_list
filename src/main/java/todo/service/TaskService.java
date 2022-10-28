@@ -8,6 +8,7 @@ import todo.model.User;
 import todo.store.TaskStore;
 
 import java.util.List;
+import java.util.Optional;
 
 @ThreadSafe
 @Service
@@ -32,7 +33,7 @@ public class TaskService {
         return store.findByDoneFalse(user);
     }
 
-    public Item findById(int id) {
+    public Optional<Item> findById(int id) {
         return store.findById(id);
     }
 
