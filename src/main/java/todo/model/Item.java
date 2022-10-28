@@ -18,28 +18,10 @@ public class Item {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
     private boolean done = false;
-    private int client;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Item() {
-    }
-
-    public Item(String description) {
-        this.description = description;
-    }
-
-    public Item(int id, String description) {
-        this.id = id;
-        this.description = description;
-    }
-
-    public Item(String description, int client) {
-        this.description = description;
-        this.client = client;
-    }
-
-    public Item(int id, String description, int client) {
-        this.id = id;
-        this.description = description;
-        this.client = client;
     }
 }

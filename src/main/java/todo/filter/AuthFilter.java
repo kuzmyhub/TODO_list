@@ -15,6 +15,7 @@ public class AuthFilter implements Filter {
             "/formRegistrationUser",
             "/registration",
             "/formLoginUser",
+            "/formLoginUser?loginSuccess=false",
             "/login"
     );
 

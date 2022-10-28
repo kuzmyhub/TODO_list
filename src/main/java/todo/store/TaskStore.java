@@ -27,7 +27,7 @@ public class TaskStore {
 
     public List<Item> findAll(User user) {
         return crudRepository.query(
-                "FROM Item i WHERE i.client = :fUserId",
+                "FROM Item i JOIN FETCH i.user u WHERE u.id = :fUserId",
                 Item.class,
                 Map.of("fUserId", user.getId())
         );
