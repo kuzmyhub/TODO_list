@@ -15,8 +15,6 @@ public class Item {
     private int id;
     private String description;
     private LocalDateTime created = LocalDateTime.now();
-    private static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
     private boolean done = false;
     @ManyToOne
     @JoinColumn(name = "user_id")
