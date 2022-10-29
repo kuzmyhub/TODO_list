@@ -28,7 +28,7 @@ public class UserStore {
         return addingUser;
     }
 
-    public Optional<User> findByLoginAndPwd(User user) {
+    public Optional<User> findByLoginAndPassword(User user) {
         return crudRepository.optional(
                 "FROM User u WHERE u.login = :fLogin AND u.password = :fPassword",
                 User.class,

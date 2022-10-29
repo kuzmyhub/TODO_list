@@ -35,7 +35,6 @@
     <div class="container pt-3" style="text-align: center;">
         <div class="card-body">
         <form th:action="@{/createTask}" method="POST">
-            <input type="hidden" name="client" th:value="${clientId}"/>
             <div class="form-group">
                 <label><b>Описание добавляемой задачи</b></label>
                 <input type="text" class="form-control" name="description" id="description">

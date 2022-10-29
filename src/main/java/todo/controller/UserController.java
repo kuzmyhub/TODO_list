@@ -30,7 +30,7 @@ public class UserController {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("registrationSuccess", registrationSuccess);
         model.addAttribute("user", user);
-        return "registrationUser";
+        return "user/registration";
     }
 
     @PostMapping("/registration")
@@ -49,13 +49,13 @@ public class UserController {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("loginSuccess", loginSuccess);
         model.addAttribute("user", user);
-        return "loginUser";
+        return "user/login";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user,
                         HttpServletRequest req) {
-        Optional<User> loginUser = userService.findByLoginAndPwd(user);
+        Optional<User> loginUser = userService.findByLoginAndPassword(user);
         if (loginUser.isEmpty()) {
             return "redirect:/formLoginUser?loginSuccess=false";
         }

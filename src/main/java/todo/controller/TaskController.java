@@ -33,20 +33,21 @@ public class TaskController {
         } else if (done.equals("0")) {
             model.addAttribute("tasks", taskService.findByDone(user, false));
         }
-        return "tasks";
+        return "task/tasks";
     }
 
     @GetMapping("/formAddTask")
     public String addTask(Model model, HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
-        model.addAttribute("item", new Item());
         model.addAttribute("user", user);
-        model.addAttribute("clientId", user.getId());
-        return "addTask";
+        return "task/addTask";
     }
 
     @PostMapping("/createTask")
-    public String createTask(@ModelAttribute Item item) {
+    public String createTask(@ModelAttribute Item item,
+                             HttpSession httpSession) {
+        User user = SessionUser.getSession(httpSession);
+        item.setUser(user);
         taskService.add(item);
         return "redirect:/todo";
     }
@@ -66,7 +67,7 @@ public class TaskController {
         model.addAttribute("task", item);
         model.addAttribute("success", success);
         model.addAttribute("user", user);
-        return "task";
+        return "task/task";
     }
 
     @GetMapping("/changeStatus")
@@ -97,7 +98,7 @@ public class TaskController {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("task", item);
         model.addAttribute("user", user);
-        return "editDescription";
+        return "task/editDescription";
     }
 
     @PostMapping("/edit")
