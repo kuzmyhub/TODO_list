@@ -33,19 +33,11 @@ public class TaskStore {
         );
     }
 
-    public List<Item> findByDoneTrue(User user) {
+    public List<Item> findByDone(User user, boolean done) {
         return crudRepository.query(
-                "FROM Item i WHERE i.client = :fUserId AND i.done = true",
+                "FROM Item i JOIN FETCH i.user u WHERE u.id = :fUserId AND i.done = :fDone",
                 Item.class,
-                Map.of("fUserId", user.getId())
-        );
-    }
-
-    public List<Item> findByDoneFalse(User user) {
-        return crudRepository.query(
-                "FROM Item i WHERE i.client = :fUserId AND i.done = false",
-                Item.class,
-                Map.of("fUserId", user.getId())
+                Map.of("fUserId", user.getId(), "fDone", done)
         );
     }
 

@@ -29,9 +29,9 @@ public class TaskController {
         if (done == null) {
             model.addAttribute("tasks", taskService.findAll(user));
         } else if (done.equals("1")) {
-            model.addAttribute("tasks", taskService.findByDoneTrue(user));
+            model.addAttribute("tasks", taskService.findByDone(user, true));
         } else if (done.equals("0")) {
-            model.addAttribute("tasks", taskService.findByDoneFalse(user));
+            model.addAttribute("tasks", taskService.findByDone(user, false));
         }
         return "tasks";
     }

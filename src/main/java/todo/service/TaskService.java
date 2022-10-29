@@ -25,12 +25,8 @@ public class TaskService {
         return store.findAll(user);
     }
 
-    public List<Item> findByDoneTrue(User user) {
-        return store.findByDoneTrue(user);
-    }
-
-    public List<Item> findByDoneFalse(User user) {
-        return store.findByDoneFalse(user);
+    public List<Item> findByDone(User user, boolean done) {
+        return store.findByDone(user, done);
     }
 
     public Optional<Item> findById(int id) {
