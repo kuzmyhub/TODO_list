@@ -19,7 +19,7 @@ public class UserService {
         return store.add(user);
     }
 
-    public Optional<User> findByLoginAndPassword(User user) {
-        return store.findByLoginAndPassword(user);
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return store.findByLoginAndPassword(login, password);
     }
 }

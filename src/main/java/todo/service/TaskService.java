@@ -3,11 +3,12 @@ package todo.service;
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import todo.model.Item;
+import todo.model.Task;
 import todo.model.User;
 import todo.store.TaskStore;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ThreadSafe
@@ -17,19 +18,23 @@ public class TaskService {
 
     private final TaskStore store;
 
-    public Item add(Item item) {
-        return store.add(item);
+    public Task add(Task task) {
+        Task addedTask = store.add(task);
+        if (addedTask.getUser() == null) {
+            throw new NoSuchElementException("Task user not found");
+        }
+        return addedTask;
     }
 
-    public List<Item> findAll(User user) {
+    public List<Task> findAll(User user) {
         return store.findAll(user);
     }
 
-    public List<Item> findByDone(User user, boolean done) {
+    public List<Task> findByDone(User user, boolean done) {
         return store.findByDone(user, done);
     }
 
-    public Optional<Item> findById(int id) {
+    public Optional<Task> findById(int id) {
         return store.findById(id);
     }
 

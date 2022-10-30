@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute User user,
                         HttpServletRequest req) {
-        Optional<User> loginUser = userService.findByLoginAndPassword(user);
+        Optional<User> loginUser = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
         if (loginUser.isEmpty()) {
             return "redirect:/formLoginUser?loginSuccess=false";
         }

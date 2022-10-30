@@ -5,7 +5,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import todo.model.Item;
+import todo.model.Task;
 import todo.model.User;
 import todo.service.TaskService;
 import todo.util.SessionUser;
@@ -20,7 +20,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/todo")
-    public String getTasks(@RequestParam (name = "done", required = false) String done,
+    public String getTasks(@RequestParam (name = "done", required = false) Boolean done,
                            @RequestParam (name = "delete", required = false) Boolean delete,
                            Model model, HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
@@ -28,9 +28,9 @@ public class TaskController {
         model.addAttribute("user", user);
         if (done == null) {
             model.addAttribute("tasks", taskService.findAll(user));
-        } else if (done.equals("1")) {
+        } else if (done.equals(true)) {
             model.addAttribute("tasks", taskService.findByDone(user, true));
-        } else if (done.equals("0")) {
+        } else if (done.equals(false)) {
             model.addAttribute("tasks", taskService.findByDone(user, false));
         }
         return "task/tasks";
@@ -44,11 +44,11 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public String createTask(@ModelAttribute Item item,
+    public String createTask(@ModelAttribute Task task,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
-        item.setUser(user);
-        taskService.add(item);
+        task.setUser(user);
+        taskService.add(task);
         return "redirect:/todo";
     }
 
@@ -58,26 +58,30 @@ public class TaskController {
                            @RequestParam(
                                    name = "success", required = false
                            ) boolean success, HttpSession httpSession) {
-        Optional<Item> optionalItem = taskService.findById(id);
-        if (optionalItem.isEmpty()) {
-            return "redirect:/todo";
-        }
-        Item item = optionalItem.get();
+        Optional<Task> optionalTask = taskService.findById(id);
         User user = SessionUser.getSession(httpSession);
-        model.addAttribute("task", item);
+        if (optionalTask.isEmpty()) {
+            model.addAttribute("user", user);
+            return "task/404";
+        }
+        Task task = optionalTask.get();
+        model.addAttribute("task", task);
         model.addAttribute("success", success);
         model.addAttribute("user", user);
         return "task/task";
     }
 
     @GetMapping("/changeStatus")
-    public String changeStatus(@ModelAttribute("id") int id) {
-        Optional<Item> optionalItem = taskService.findById(id);
-        if (optionalItem.isEmpty()) {
-            return "redirect:/todo";
+    public String changeStatus(Model model, @ModelAttribute("id") int id,
+                               HttpSession httpSession) {
+        Optional<Task> optionalTask = taskService.findById(id);
+        if (optionalTask.isEmpty()) {
+            User user = SessionUser.getSession(httpSession);
+            model.addAttribute("user", user);
+            return "task/404";
         }
-        Item item = optionalItem.get();
-        boolean done = item.isDone();
+        Task task = optionalTask.get();
+        boolean done = task.isDone();
         if (done) {
             taskService.updateDone(id, false);
         } else {
@@ -90,22 +94,22 @@ public class TaskController {
     public String editDescription(Model model,
                                   @ModelAttribute("id") int id,
                                   HttpSession httpSession) {
-        Optional<Item> optionalItem = taskService.findById(id);
-        if (optionalItem.isEmpty()) {
-            return "redirect:/todo";
-        }
-        Item item = optionalItem.get();
         User user = SessionUser.getSession(httpSession);
-        model.addAttribute("task", item);
+        Optional<Task> optionalTask = taskService.findById(id);
+        if (optionalTask.isEmpty()) {
+            model.addAttribute("user", user);
+            return "task/404";
+        }
+        Task task = optionalTask.get();
+        model.addAttribute("task", task);
         model.addAttribute("user", user);
         return "task/editDescription";
     }
 
     @PostMapping("/edit")
-    public String edit(@ModelAttribute("task") Item item) {
-        System.out.println(item + "item");
-        taskService.updateDescription(item.getId(), item.getDescription());
-        return "redirect:/openTask/" + item.getId();
+    public String edit(@ModelAttribute("task") Task task) {
+        taskService.updateDescription(task.getId(), task.getDescription());
+        return "redirect:/openTask/" + task.getId();
     }
 
     @GetMapping("/delete")

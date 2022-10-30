@@ -67,8 +67,8 @@
         </form>
 
         <a th:href="@{/todo}" class="indent_a">Все</a>
-        <a th:href="@{/todo?done=1}" class="indent_a">Выполненные</a>
-        <a th:href="@{/todo?done=0}" class="indent_a">Не выполненные</a>
+        <a th:href="@{/todo?done=true}" class="indent_a">Выполненные</a>
+        <a th:href="@{/todo?done=false}" class="indent_a">Не выполненные</a>
 
     </div>
     <table border="1" style="display: inline-block;">

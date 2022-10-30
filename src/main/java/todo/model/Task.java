@@ -4,12 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
 @Table(name = "tasks")
-public class Item {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,6 +19,6 @@ public class Item {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Item() {
+    public Task() {
     }
 }
