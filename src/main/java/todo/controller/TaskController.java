@@ -5,8 +5,10 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import todo.model.Priority;
 import todo.model.Task;
 import todo.model.User;
+import todo.service.PriorityService;
 import todo.service.TaskService;
 import todo.util.SessionUser;
 
@@ -18,6 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+    private final PriorityService priorityService;
 
     @GetMapping("/todo")
     public String getTasks(@RequestParam (name = "done", required = false) Boolean done,
@@ -44,10 +47,18 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public String createTask(@ModelAttribute Task task,
+    public String createTask(Model model,
+                             @ModelAttribute Task task,
+                             @ModelAttribute(name = "priorityId") int priorityId,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
+        Optional<Priority> optionalPriority = priorityService.findById(priorityId);
+        if (optionalPriority.isEmpty()) {
+            model.addAttribute("user", user);
+            return "task/404";
+        }
         task.setUser(user);
+        task.setPriority(optionalPriority.get());
         taskService.add(task);
         return "redirect:/todo";
     }

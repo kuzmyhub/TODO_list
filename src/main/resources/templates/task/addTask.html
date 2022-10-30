@@ -38,6 +38,11 @@
             <div class="form-group">
                 <label><b>Описание добавляемой задачи</b></label>
                 <input type="text" class="form-control" name="description" id="description">
+                <label><b>Приоритет выполнения задачи</b></label>
+                <p><select name="priorityId" id="priorityId">
+                    <option th:value="1">urgently</option>
+                    <option th:value="2">normal</option>
+                </select></p>
             </div>
             <button type="submit" class="btn btn-primary mt-3">OK</button>
         </form>

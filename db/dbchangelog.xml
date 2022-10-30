@@ -10,4 +10,8 @@
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
     <include file="scripts/001_create_users_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_create_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_create_priorities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_initialization_priorities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_update_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_initialization_priority_id_column_tasks_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
