@@ -5,6 +5,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import todo.model.Priority;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,6 +15,13 @@ import java.util.Optional;
 public class PriorityStore {
 
     private CrudRepository crudRepository;
+
+    public List<Priority> findAll() {
+        return crudRepository.query(
+                "FROM Priority",
+                Priority.class
+        );
+    }
 
     public Optional<Priority> findById(int id) {
         return crudRepository.optional(

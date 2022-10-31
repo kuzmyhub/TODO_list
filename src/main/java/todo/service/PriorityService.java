@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import todo.model.Priority;
 import todo.store.PriorityStore;
 
+import java.util.List;
 import java.util.Optional;
 
 @ThreadSafe
@@ -14,6 +15,10 @@ import java.util.Optional;
 public class PriorityService {
 
     private PriorityStore store;
+
+    public List<Priority> findAll() {
+        return store.findAll();
+    }
 
     public Optional<Priority> findById(int id) {
         return store.findById(id);

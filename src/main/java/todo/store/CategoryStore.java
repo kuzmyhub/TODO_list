@@ -5,6 +5,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import todo.model.Category;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,11 +16,18 @@ public class CategoryStore {
 
     private CrudRepository crudRepository;
 
-    public Optional<Category> findByName(String name) {
+    public List<Category> findAll() {
+        return crudRepository.query(
+                "FROM Category",
+                Category.class
+        );
+    }
+
+    public Optional<Category> findById(int id) {
         return crudRepository.optional(
-                "FROM Category WHERE name = :fName",
+                "FROM Category WHERE id = :fId",
                 Category.class,
-                Map.of("fName", name)
+                Map.of("fId", id)
         );
     }
 }

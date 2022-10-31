@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import todo.model.Category;
 import todo.store.CategoryStore;
 
+import java.util.List;
 import java.util.Optional;
 
 @ThreadSafe
@@ -15,7 +16,11 @@ public class CategoryService {
 
     private CategoryStore store;
 
-    public Optional<Category> findByName(String name) {
-        return store.findByName(name);
+    public Optional<Category> findById(int id) {
+        return store.findById(id);
+    }
+
+    public List<Category> findAll() {
+        return store.findAll();
     }
 }

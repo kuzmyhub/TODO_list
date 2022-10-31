@@ -40,16 +40,13 @@
                 <input type="text" class="form-control" name="description" id="description">
                 <label><b>Приоритет выполнения задачи</b></label>
                 <p><select name="priorityId" id="priorityId">
-                    <option th:value="1">urgently</option>
-                    <option th:value="2">normal</option>
+                    <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
+                    <!--<option th:value="1">urgently</option>
+                    <option th:value="2">normal</option>-->
                 </select></p>
                 <label><b>Категории задачи</b></label>
-                <p><select name="taskCategory" id="taskCategory" multiple="multiple" size="4">
-                    <option th:value="home">дом</option>
-                    <option th:value="work">работа</option>
-                    <option th:value="training">обучение</option>
-                    <option th:value="rest">отдых</option>
-                    <option th:value="other">другое</option>
+                <p><select name="categoriesId" id="categoriesId" multiple="multiple" size="4">
+                    <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select></p>
             </div>
             <button type="submit" class="btn btn-primary mt-3">OK</button>

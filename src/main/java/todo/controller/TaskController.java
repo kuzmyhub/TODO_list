@@ -49,6 +49,8 @@ public class TaskController {
     public String addTask(Model model, HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("user", user);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/addTask";
     }
 
@@ -56,7 +58,7 @@ public class TaskController {
     public String createTask(Model model,
                              @ModelAttribute Task task,
                              @ModelAttribute(name = "priorityId") int priorityId,
-                             @ModelAttribute(name = "taskCategory") List<String> taskCategories,
+                             @ModelAttribute(name = "categoriesId") List<Integer> categoriesId,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         Optional<Priority> optionalPriority = priorityService.findById(priorityId);
@@ -65,9 +67,9 @@ public class TaskController {
             return "task/404";
         }
         List<Category> categories = new ArrayList<>();
-        System.out.println(taskCategories);
-        for (String c : taskCategories) {
-            Optional<Category> optionalCategory = categoryService.findByName(c);
+        System.out.println(categoriesId);
+        for (Integer c : categoriesId) {
+            Optional<Category> optionalCategory = categoryService.findById(c);
             if (optionalCategory.isEmpty()) {
                 model.addAttribute("user", user);
                 return "task/404";
