@@ -16,6 +16,8 @@ import todo.store.CategoryStore;
 import todo.util.SessionUser;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,7 @@ public class TaskController {
         model.addAttribute("delete", delete);
         model.addAttribute("user", user);
         if (done == null) {
+            List<Task> tasks = taskService.findAll(user);
             model.addAttribute("tasks", taskService.findAll(user));
         } else if (done.equals(true)) {
             model.addAttribute("tasks", taskService.findByDone(user, true));
@@ -67,7 +70,6 @@ public class TaskController {
             return "task/404";
         }
         List<Category> categories = new ArrayList<>();
-        System.out.println(categoriesId);
         for (Integer c : categoriesId) {
             Optional<Category> optionalCategory = categoryService.findById(c);
             if (optionalCategory.isEmpty()) {
