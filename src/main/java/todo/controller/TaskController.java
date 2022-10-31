@@ -5,14 +5,19 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import todo.model.Category;
 import todo.model.Priority;
 import todo.model.Task;
 import todo.model.User;
+import todo.service.CategoryService;
 import todo.service.PriorityService;
 import todo.service.TaskService;
+import todo.store.CategoryStore;
 import todo.util.SessionUser;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @ThreadSafe
@@ -21,6 +26,7 @@ import java.util.Optional;
 public class TaskController {
     private final TaskService taskService;
     private final PriorityService priorityService;
+    private final CategoryService categoryService;
 
     @GetMapping("/todo")
     public String getTasks(@RequestParam (name = "done", required = false) Boolean done,
@@ -50,6 +56,7 @@ public class TaskController {
     public String createTask(Model model,
                              @ModelAttribute Task task,
                              @ModelAttribute(name = "priorityId") int priorityId,
+                             @ModelAttribute(name = "taskCategory") List<String> taskCategories,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         Optional<Priority> optionalPriority = priorityService.findById(priorityId);
@@ -57,6 +64,17 @@ public class TaskController {
             model.addAttribute("user", user);
             return "task/404";
         }
+        List<Category> categories = new ArrayList<>();
+        System.out.println(taskCategories);
+        for (String c : taskCategories) {
+            Optional<Category> optionalCategory = categoryService.findByName(c);
+            if (optionalCategory.isEmpty()) {
+                model.addAttribute("user", user);
+                return "task/404";
+            }
+            categories.add(optionalCategory.get());
+        }
+        task.setCategorization(categories);
         task.setUser(user);
         task.setPriority(optionalPriority.get());
         taskService.add(task);

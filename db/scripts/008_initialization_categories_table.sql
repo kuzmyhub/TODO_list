@@ -1,0 +1,1 @@
+INSERT INTO categories(name) VALUES('home'), ('work'), ('training'), ('rest'), ('other');

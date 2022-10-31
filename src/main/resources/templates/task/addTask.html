@@ -43,6 +43,14 @@
                     <option th:value="1">urgently</option>
                     <option th:value="2">normal</option>
                 </select></p>
+                <label><b>Категории задачи</b></label>
+                <p><select name="taskCategory" id="taskCategory" multiple="multiple" size="4">
+                    <option th:value="home">дом</option>
+                    <option th:value="work">работа</option>
+                    <option th:value="training">обучение</option>
+                    <option th:value="rest">отдых</option>
+                    <option th:value="other">другое</option>
+                </select></p>
             </div>
             <button type="submit" class="btn btn-primary mt-3">OK</button>
         </form>
