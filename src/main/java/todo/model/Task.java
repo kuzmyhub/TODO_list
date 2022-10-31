@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
@@ -14,7 +16,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private LocalDateTime created = LocalDateTime.now();
+    private ZonedDateTime created = ZonedDateTime.now();
     private boolean done = false;
     @ManyToOne
     @JoinColumn(name = "user_id")

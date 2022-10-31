@@ -18,6 +18,8 @@ import todo.util.SessionUser;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +80,7 @@ public class TaskController {
             }
             categories.add(optionalCategory.get());
         }
+        task.setCreated(LocalDateTime.now().atZone(ZoneId.of(user.getUtc())));
         task.setCategorization(categories);
         task.setUser(user);
         task.setPriority(optionalPriority.get());
