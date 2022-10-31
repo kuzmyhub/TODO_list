@@ -41,8 +41,6 @@
                 <label><b>Приоритет выполнения задачи</b></label>
                 <p><select name="priorityId" id="priorityId">
                     <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
-                    <!--<option th:value="1">urgently</option>
-                    <option th:value="2">normal</option>-->
                 </select></p>
                 <label><b>Категории задачи</b></label>
                 <p><select name="categoriesId" id="categoriesId" multiple="multiple" size="4">

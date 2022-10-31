@@ -19,4 +19,7 @@
     <include file="scripts/009_create_tasks_categories_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_initialization_task_id_column_tasks_categories_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_initialization_category_column_category_task_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/012_update_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/013_update_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/014_initialization_utc_column_users_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
