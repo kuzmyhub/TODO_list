@@ -1,10 +1,8 @@
-package todo.model;
+package ru.job4j.todo.model;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 

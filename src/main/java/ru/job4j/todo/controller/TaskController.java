@@ -1,25 +1,22 @@
-package todo.controller;
+package ru.job4j.todo.controller;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import todo.model.Category;
-import todo.model.Priority;
-import todo.model.Task;
-import todo.model.User;
-import todo.service.CategoryService;
-import todo.service.PriorityService;
-import todo.service.TaskService;
-import todo.store.CategoryStore;
-import todo.util.SessionUser;
+import ru.job4j.todo.model.Category;
+import ru.job4j.todo.model.Priority;
+import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
+import ru.job4j.todo.util.SessionUser;
+import ru.job4j.todo.service.CategoryService;
+import ru.job4j.todo.service.PriorityService;
+import ru.job4j.todo.service.TaskService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

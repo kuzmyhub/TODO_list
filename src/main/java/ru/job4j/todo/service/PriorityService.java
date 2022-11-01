@@ -1,10 +1,10 @@
-package todo.service;
+package ru.job4j.todo.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import todo.model.Priority;
-import todo.store.PriorityStore;
+import ru.job4j.todo.model.Priority;
+import ru.job4j.todo.repository.PriorityRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PriorityService {
 
-    private PriorityStore store;
+    private PriorityRepository store;
 
     public List<Priority> findAll() {
         return store.findAll();

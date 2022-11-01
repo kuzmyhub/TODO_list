@@ -1,8 +1,8 @@
-package todo.util;
+package ru.job4j.todo.util;
 
 
 import lombok.AllArgsConstructor;
-import todo.model.User;
+import ru.job4j.todo.model.User;
 
 import javax.servlet.http.HttpSession;
 

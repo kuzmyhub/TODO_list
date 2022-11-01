@@ -1,10 +1,10 @@
-package todo.service;
+package ru.job4j.todo.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import todo.model.User;
-import todo.store.UserStore;
+import ru.job4j.todo.model.User;
+import ru.job4j.todo.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    private UserStore store;
+    private UserRepository store;
 
     public Optional<User> add(User user) {
         return store.add(user);

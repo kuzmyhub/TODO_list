@@ -1,10 +1,10 @@
-package todo.service;
+package ru.job4j.todo.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import todo.model.Category;
-import todo.store.CategoryStore;
+import ru.job4j.todo.model.Category;
+import ru.job4j.todo.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CategoryService {
 
-    private CategoryStore store;
+    private CategoryRepository store;
 
     public Optional<Category> findById(int id) {
         return store.findById(id);

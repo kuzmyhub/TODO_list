@@ -1,11 +1,9 @@
-package todo.store;
+package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import todo.model.User;
+import ru.job4j.todo.model.User;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +11,7 @@ import java.util.Optional;
 @ThreadSafe
 @Repository
 @AllArgsConstructor
-public class UserStore {
+public class UserRepository {
 
     private final CrudRepository crudRepository;
 

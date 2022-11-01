@@ -1,4 +1,4 @@
-package todo.filter;
+package ru.job4j.todo.filter;
 
 import org.springframework.stereotype.Component;
 

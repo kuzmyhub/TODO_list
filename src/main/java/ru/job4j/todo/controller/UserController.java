@@ -1,4 +1,4 @@
-package todo.controller;
+package ru.job4j.todo.controller;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import todo.model.User;
-import todo.service.UserService;
-import todo.util.SessionUser;
+import ru.job4j.todo.model.User;
+import ru.job4j.todo.util.SessionUser;
+import ru.job4j.todo.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -1,11 +1,11 @@
-package todo.service;
+package ru.job4j.todo.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import todo.model.Task;
-import todo.model.User;
-import todo.store.TaskStore;
+import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
+import ru.job4j.todo.repository.TaskRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TaskService {
 
-    private final TaskStore store;
+    private final TaskRepository store;
 
     public Task add(Task task) {
         Task addedTask = store.add(task);

@@ -1,10 +1,10 @@
-package todo.store;
+package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
-import todo.model.Task;
-import todo.model.User;
+import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @ThreadSafe
 @Repository
 @AllArgsConstructor
-public class TaskStore {
+public class TaskRepository {
 
     private final CrudRepository crudRepository;
 
