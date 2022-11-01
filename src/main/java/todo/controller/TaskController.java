@@ -63,7 +63,7 @@ public class TaskController {
     public String createTask(Model model,
                              @ModelAttribute Task task,
                              @ModelAttribute(name = "priorityId") int priorityId,
-                             @ModelAttribute(name = "categoriesId") List<Integer> categoriesId,
+                             @ModelAttribute(name = "categoriesId") List<String> categoriesId,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         Optional<Priority> optionalPriority = priorityService.findById(priorityId);
@@ -72,8 +72,10 @@ public class TaskController {
             return "task/404";
         }
         List<Category> categories = new ArrayList<>();
-        for (Integer c : categoriesId) {
-            Optional<Category> optionalCategory = categoryService.findById(c);
+        System.out.println(categoriesId);
+        for (String c : categoriesId) {
+            Optional<Category> optionalCategory = categoryService
+                    .findById(Integer.parseInt(c));
             if (optionalCategory.isEmpty()) {
                 model.addAttribute("user", user);
                 return "task/404";
