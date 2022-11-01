@@ -8,6 +8,7 @@ import ru.job4j.todo.model.Category;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ThreadSafe
 @Repository
@@ -23,11 +24,15 @@ public class CategoryRepository {
         );
     }
 
-    public Optional<Category> findById(int id) {
-        return crudRepository.optional(
-                "FROM Category WHERE id = :fId",
+    public List<Category> findByIds(List<String> ids) {
+        List<Integer> intIds = ids
+                .stream()
+                .map(Integer::parseInt)
+                .toList();
+        return crudRepository.query(
+                "FROM Category c WHERE c.id in (:fIds)",
                 Category.class,
-                Map.of("fId", id)
+                Map.of("fIds", intIds)
         );
     }
 }

@@ -16,8 +16,8 @@ public class CategoryService {
 
     private CategoryRepository store;
 
-    public Optional<Category> findById(int id) {
-        return store.findById(id);
+    public List<Category> findByIds(List<String> ids) {
+        return store.findByIds(ids);
     }
 
     public List<Category> findAll() {

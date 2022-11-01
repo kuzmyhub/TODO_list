@@ -68,17 +68,8 @@ public class TaskController {
             model.addAttribute("user", user);
             return "task/404";
         }
-        List<Category> categories = new ArrayList<>();
-        System.out.println(categoriesId);
-        for (String c : categoriesId) {
-            Optional<Category> optionalCategory = categoryService
-                    .findById(Integer.parseInt(c));
-            if (optionalCategory.isEmpty()) {
-                model.addAttribute("user", user);
-                return "task/404";
-            }
-            categories.add(optionalCategory.get());
-        }
+        List<Category> categories = categoryService
+                .findByIds(categoriesId);
         task.setCreated(LocalDateTime.now().atZone(ZoneId.of(user.getUtc())));
         task.setCategorization(categories);
         task.setUser(user);
