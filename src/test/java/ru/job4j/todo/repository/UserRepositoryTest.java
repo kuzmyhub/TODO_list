@@ -34,8 +34,7 @@ class UserRepositoryTest {
         Session session = sf.openSession();
         session.beginTransaction();
         session.createQuery(
-                "DELETE FROM User",
-                        User.class
+                "DELETE FROM User"
         )
                 .executeUpdate();
         session.getTransaction().commit();
@@ -47,9 +46,10 @@ class UserRepositoryTest {
         CrudRepository crudRepository = new CrudRepository(sf);
         UserRepository userRepository = new UserRepository(crudRepository);
         User user = new User();
-        user.setName("Cujo");
-        user.setLogin("Jojo");
-        user.setPassword("hesoyam");
+        user.setId(1);
+        user.setName("van");
+        user.setLogin("van");
+        user.setPassword("pass");
         user.setUtc("UTC+2");
         Optional<User> u = userRepository.add(user);
         System.out.println("opop");
