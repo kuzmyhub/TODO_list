@@ -16,6 +16,10 @@ public class CategoryService {
 
     private CategoryRepository store;
 
+    public Category add(Category category) {
+        return store.add(category);
+    }
+
     public List<Category> findByIds(List<String> ids) {
         return store.findByIds(ids);
     }

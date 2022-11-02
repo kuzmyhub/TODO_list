@@ -16,6 +16,11 @@ public class PriorityRepository {
 
     private CrudRepository crudRepository;
 
+    public Priority add(Priority priority) {
+        crudRepository.run(session -> session.save(priority));
+        return priority;
+    }
+
     public List<Priority> findAll() {
         return crudRepository.query(
                 "FROM Priority",

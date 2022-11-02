@@ -16,6 +16,10 @@ public class PriorityService {
 
     private PriorityRepository store;
 
+    public Priority add(Priority priority) {
+        return store.add(priority);
+    }
+
     public List<Priority> findAll() {
         return store.findAll();
     }

@@ -42,23 +42,64 @@ class UserRepositoryTest {
     }
 
     @Test
+    public void whenAddUserThenSetUserId() {
+        CrudRepository crudRepository = new CrudRepository(sf);
+        UserRepository userRepository = new UserRepository(crudRepository);
+        User user = new User();
+        user.setName("Kujo");
+        user.setLogin("Jojo");
+        user.setPassword("88005553535");
+        user.setUtc("UTC+2");
+        userRepository.add(user);
+        int notExpectedId = 0;
+        assertThat(user.getId()).isNotEqualTo(notExpectedId);
+    }
+
+    @Test
     public void whenAddUserThenGetSameUser() {
         CrudRepository crudRepository = new CrudRepository(sf);
         UserRepository userRepository = new UserRepository(crudRepository);
         User user = new User();
-        user.setId(1);
-        user.setName("van");
-        user.setLogin("van");
-        user.setPassword("pass");
+        user.setName("Kujo");
+        user.setLogin("Jojo");
+        user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        Optional<User> u = userRepository.add(user);
-        System.out.println("opop");
-        System.out.println(u.get() + "opop");
+        userRepository.add(user);
         User dbUser = userRepository.
                 findByLoginAndPassword(
                         user.getLogin(), user.getPassword()
                 )
                 .get();
         assertThat(dbUser).isEqualTo(user);
+    }
+
+    @Test
+    public void whenAddSeveralUsersThenGetSameUsers() {
+        CrudRepository crudRepository = new CrudRepository(sf);
+        UserRepository userRepository = new UserRepository(crudRepository);
+        User firstUser = new User();
+        firstUser.setName("Kujo");
+        firstUser.setLogin("Jojo");
+        firstUser.setPassword("88005553535");
+        firstUser.setUtc("UTC+2");
+        User secondUser = new User();
+        secondUser.setName("Jolyne");
+        secondUser.setLogin("Putci");
+        secondUser.setPassword("hesoyam");
+        secondUser.setUtc("UTC+2");
+        userRepository.add(firstUser);
+        userRepository.add(secondUser);
+        User dbFirstUser = userRepository.
+                findByLoginAndPassword(
+                        firstUser.getLogin(), firstUser.getPassword()
+                )
+                .get();
+        User dbSecondUser = userRepository.
+                findByLoginAndPassword(
+                        secondUser.getLogin(), secondUser.getPassword()
+                )
+                .get();
+        assertThat(dbFirstUser).isEqualTo(firstUser);
+        assertThat(dbSecondUser).isEqualTo(secondUser);
     }
 }

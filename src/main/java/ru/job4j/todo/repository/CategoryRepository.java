@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Category;
+import ru.job4j.todo.model.Priority;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,11 @@ import java.util.stream.Collectors;
 public class CategoryRepository {
 
     private CrudRepository crudRepository;
+
+    public Category add(Category category) {
+        crudRepository.run(session -> session.save(category));
+        return category;
+    }
 
     public List<Category> findAll() {
         return crudRepository.query(
