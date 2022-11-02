@@ -22,4 +22,5 @@
     <include file="scripts/012_update_tasks_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/013_update_users_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_initialization_utc_column_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/015_update_users_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
