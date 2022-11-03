@@ -17,7 +17,6 @@ import ru.job4j.todo.service.TaskService;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,6 @@ public class TaskController {
         model.addAttribute("delete", delete);
         model.addAttribute("user", user);
         if (done == null) {
-            List<Task> tasks = taskService.findAll(user);
             model.addAttribute("tasks", taskService.findAll(user));
         } else if (done.equals(true)) {
             model.addAttribute("tasks", taskService.findByDone(user, true));

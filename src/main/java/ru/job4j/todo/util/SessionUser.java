@@ -14,6 +14,7 @@ public final class SessionUser {
         if (user == null) {
             user = new User();
             user.setName("Гость");
+            user.setUtc("UTC+3");
         }
         return user;
     }
