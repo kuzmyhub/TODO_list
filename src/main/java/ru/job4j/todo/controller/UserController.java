@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.todo.model.User;
-import ru.job4j.todo.util.SessionUser;
 import ru.job4j.todo.service.UserService;
+import ru.job4j.todo.util.SessionUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private UserService hibernateUserService;
 
     @GetMapping("/formRegistrationUser")
     public String formRegistrationUser(Model model, @RequestParam(
@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute User user) {
-        Optional<User> addedUser = userService.add(user);
+        Optional<User> addedUser = hibernateUserService.add(user);
         if (addedUser.isEmpty()) {
             return "redirect:/formRegistrationUser?registrationSuccess=false";
         }
@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute User user,
                         HttpServletRequest req) {
-        Optional<User> loginUser = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
+        Optional<User> loginUser = hibernateUserService.findByLoginAndPassword(user.getLogin(), user.getPassword());
         if (loginUser.isEmpty()) {
             return "redirect:/formLoginUser?loginSuccess=false";
         }

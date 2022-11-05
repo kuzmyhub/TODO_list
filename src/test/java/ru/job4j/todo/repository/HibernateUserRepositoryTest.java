@@ -12,7 +12,7 @@ import ru.job4j.todo.model.User;
 
 import static org.assertj.core.api.Assertions.*;
 
-class UserRepositoryTest {
+class HibernateUserRepositoryTest {
 
     private static SessionFactory sf;
 
@@ -41,13 +41,13 @@ class UserRepositoryTest {
     @Test
     public void whenAddUserThenSetUserId() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
         int notExpectedId = 0;
         assertThat(user.getId()).isNotEqualTo(notExpectedId);
     }
@@ -55,14 +55,14 @@ class UserRepositoryTest {
     @Test
     public void whenAddUserThenGetSameUser() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
-        User dbUser = userRepository.
+        hibernateUserRepository.add(user);
+        User dbUser = hibernateUserRepository.
                 findByLoginAndPassword(
                         user.getLogin(), user.getPassword()
                 )
@@ -73,7 +73,7 @@ class UserRepositoryTest {
     @Test
     public void whenAddSeveralUsersThenGetSameUsers() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User firstUser = new User();
         firstUser.setName("Kujo");
         firstUser.setLogin("Jojo");
@@ -84,14 +84,14 @@ class UserRepositoryTest {
         secondUser.setLogin("Putci");
         secondUser.setPassword("hesoyam");
         secondUser.setUtc("UTC+2");
-        userRepository.add(firstUser);
-        userRepository.add(secondUser);
-        User dbFirstUser = userRepository.
+        hibernateUserRepository.add(firstUser);
+        hibernateUserRepository.add(secondUser);
+        User dbFirstUser = hibernateUserRepository.
                 findByLoginAndPassword(
                         firstUser.getLogin(), firstUser.getPassword()
                 )
                 .get();
-        User dbSecondUser = userRepository.
+        User dbSecondUser = hibernateUserRepository.
                 findByLoginAndPassword(
                         secondUser.getLogin(), secondUser.getPassword()
                 )

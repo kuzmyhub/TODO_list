@@ -1,30 +1,16 @@
 package ru.job4j.todo.service;
 
-import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
-import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Priority;
-import ru.job4j.todo.repository.PriorityRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-@ThreadSafe
-@Service
-@AllArgsConstructor
-public class PriorityService {
+public interface PriorityService {
 
-    private PriorityRepository store;
+    Priority add(Priority priority);
 
-    public Priority add(Priority priority) {
-        return store.add(priority);
-    }
+    List<Priority> findAll();
 
-    public List<Priority> findAll() {
-        return store.findAll();
-    }
+    Optional<Priority> findById(int id);
 
-    public Optional<Priority> findById(int id) {
-        return store.findById(id);
-    }
 }

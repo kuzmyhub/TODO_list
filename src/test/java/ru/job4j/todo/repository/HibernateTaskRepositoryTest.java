@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskRepositoryTest {
+class HibernateTaskRepositoryTest {
 
     private static SessionFactory sf;
 
@@ -59,33 +59,33 @@ class TaskRepositoryTest {
     @Test
     public void whenAddTaskThenSetTaskId() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task task = new Task();
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
         task.setCategorization(List.of(category));
-        taskRepository.add(task);
+        hibernateTaskRepository.add(task);
 
         int notExpectedId = 0;
 
@@ -95,35 +95,35 @@ class TaskRepositoryTest {
     @Test
     public void whenAddTaskThenGetSomeTask() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task task = new Task();
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
         task.setCategorization(List.of(category));
-        taskRepository.add(task);
+        hibernateTaskRepository.add(task);
 
-        Task dbTask = taskRepository
+        Task dbTask = hibernateTaskRepository
                 .findById(task.getId())
                 .get();
 
@@ -151,61 +151,61 @@ class TaskRepositoryTest {
     @Test
     public void whenAddSeveralTasksThenGetSameTasks() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User userFirstTask = new User();
         userFirstTask.setName("Kujo");
         userFirstTask.setLogin("Jojo");
         userFirstTask.setPassword("88005553535");
         userFirstTask.setUtc("UTC+2");
-        userRepository.add(userFirstTask);
+        hibernateUserRepository.add(userFirstTask);
 
         Priority priorityFirstTask = new Priority();
         priorityFirstTask.setName("not urgent");
         priorityFirstTask.setPosition(3);
-        priorityRepository.add(priorityFirstTask);
+        hibernatePriorityRepository.add(priorityFirstTask);
 
         Category categoryFirstTask = new Category();
         categoryFirstTask.setName("java");
-        categoryRepository.add(categoryFirstTask);
+        hibernateCategoryRepository.add(categoryFirstTask);
 
         Task firstTask = new Task();
         firstTask.setDescription("test");
         firstTask.setUser(userFirstTask);
         firstTask.setPriority(priorityFirstTask);
         firstTask.setCategorization(List.of(categoryFirstTask));
-        taskRepository.add(firstTask);
+        hibernateTaskRepository.add(firstTask);
 
         User userSecondTask = new User();
         userSecondTask.setName("Jolyne");
         userSecondTask.setLogin("Putci");
         userSecondTask.setPassword("hesoyam");
         userSecondTask.setUtc("UTC+2");
-        userRepository.add(userSecondTask);
+        hibernateUserRepository.add(userSecondTask);
 
         Priority prioritySecondTask = new Priority();
         prioritySecondTask.setName("high priority");
         prioritySecondTask.setPosition(4);
-        priorityRepository.add(prioritySecondTask);
+        hibernatePriorityRepository.add(prioritySecondTask);
 
         Category categorySecondTask = new Category();
         categorySecondTask.setName("home");
-        categoryRepository.add(categorySecondTask);
+        hibernateCategoryRepository.add(categorySecondTask);
 
         Task secondTask = new Task();
         secondTask.setDescription("junit");
         secondTask.setUser(userSecondTask);
         secondTask.setPriority(prioritySecondTask);
         secondTask.setCategorization(List.of(categorySecondTask));
-        taskRepository.add(secondTask);
+        hibernateTaskRepository.add(secondTask);
 
-        Task firstDbTask = taskRepository
+        Task firstDbTask = hibernateTaskRepository
                 .findById(firstTask.getId())
                 .get();
-        Task secondDbTask = taskRepository
+        Task secondDbTask = hibernateTaskRepository
                 .findById(secondTask.getId())
                 .get();
 
@@ -253,59 +253,59 @@ class TaskRepositoryTest {
     @Test
     public void whenAddTasksThenGetByUser() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User userFirstTask = new User();
         userFirstTask.setName("Kujo");
         userFirstTask.setLogin("Jojo");
         userFirstTask.setPassword("88005553535");
         userFirstTask.setUtc("UTC+2");
-        userRepository.add(userFirstTask);
+        hibernateUserRepository.add(userFirstTask);
 
         Priority priorityFirstTask = new Priority();
         priorityFirstTask.setName("not urgent");
         priorityFirstTask.setPosition(3);
-        priorityRepository.add(priorityFirstTask);
+        hibernatePriorityRepository.add(priorityFirstTask);
 
         Category categoryFirstTask = new Category();
         categoryFirstTask.setName("java");
-        categoryRepository.add(categoryFirstTask);
+        hibernateCategoryRepository.add(categoryFirstTask);
 
         Task firstTask = new Task();
         firstTask.setDescription("test");
         firstTask.setUser(userFirstTask);
         firstTask.setPriority(priorityFirstTask);
         firstTask.setCategorization(List.of(categoryFirstTask));
-        taskRepository.add(firstTask);
+        hibernateTaskRepository.add(firstTask);
 
         User userSecondTask = new User();
         userSecondTask.setName("Jolyne");
         userSecondTask.setLogin("Putci");
         userSecondTask.setPassword("hesoyam");
         userSecondTask.setUtc("UTC+2");
-        userRepository.add(userSecondTask);
+        hibernateUserRepository.add(userSecondTask);
 
         Priority prioritySecondTask = new Priority();
         prioritySecondTask.setName("high priority");
         prioritySecondTask.setPosition(4);
-        priorityRepository.add(prioritySecondTask);
+        hibernatePriorityRepository.add(prioritySecondTask);
 
         Category categorySecondTask = new Category();
         categorySecondTask.setName("home");
-        categoryRepository.add(categorySecondTask);
+        hibernateCategoryRepository.add(categorySecondTask);
 
         Task secondTask = new Task();
         secondTask.setDescription("junit");
         secondTask.setUser(userSecondTask);
         secondTask.setPriority(prioritySecondTask);
         secondTask.setCategorization(List.of(categorySecondTask));
-        taskRepository.add(secondTask);
+        hibernateTaskRepository.add(secondTask);
 
-        List<Task> dbTasks = taskRepository.findAll(userFirstTask);
-        Task dbTask = taskRepository
+        List<Task> dbTasks = hibernateTaskRepository.findAll(userFirstTask);
+        Task dbTask = hibernateTaskRepository
                 .findAll(userFirstTask).get(0);
         int numberOfTasks = 1;
 
@@ -334,33 +334,33 @@ class TaskRepositoryTest {
     @Test
     public void whenAddTasksThenGetByDone() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task taskFalse = new Task();
         taskFalse.setDescription("test");
         taskFalse.setUser(user);
         taskFalse.setPriority(priority);
         taskFalse.setCategorization(List.of(category));
-        taskRepository.add(taskFalse);
+        hibernateTaskRepository.add(taskFalse);
 
         Task taskTrue = new Task();
         taskTrue.setDescription("test");
@@ -368,9 +368,9 @@ class TaskRepositoryTest {
         taskTrue.setDone(true);
         taskTrue.setPriority(priority);
         taskTrue.setCategorization(List.of(category));
-        taskRepository.add(taskTrue);
+        hibernateTaskRepository.add(taskTrue);
 
-        List<Task> dbTasks = taskRepository
+        List<Task> dbTasks = hibernateTaskRepository
                 .findByDone(user, true);
         Task dbTask = dbTasks.get(0);
         int numberOfTasks = 1;
@@ -399,111 +399,111 @@ class TaskRepositoryTest {
     @Test
     public void whenUpdateDone() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task task = new Task();
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
         task.setCategorization(List.of(category));
-        taskRepository.add(task);
+        hibernateTaskRepository.add(task);
 
-        taskRepository.updateDone(task.getId(), true);
+        hibernateTaskRepository.updateDone(task.getId(), true);
 
-        assertTrue(taskRepository.findById(task.getId()).get().isDone());
+        assertTrue(hibernateTaskRepository.findById(task.getId()).get().isDone());
     }
 
     @Test
     public void whenUpdateDescription() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task task = new Task();
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
         task.setCategorization(List.of(category));
-        taskRepository.add(task);
+        hibernateTaskRepository.add(task);
 
         String expected = "update description";
-        taskRepository.updateDescription(task.getId(), expected);
+        hibernateTaskRepository.updateDescription(task.getId(), expected);
 
-        assertThat(taskRepository.findById(task.getId()).get().getDescription())
+        assertThat(hibernateTaskRepository.findById(task.getId()).get().getDescription())
                 .isEqualTo(expected);
     }
 
     @Test
     public void whenDeleteTaskThenOptionalIsEmpty() {
         CrudRepository crudRepository = new CrudRepository(sf);
-        UserRepository userRepository = new UserRepository(crudRepository);
-        PriorityRepository priorityRepository = new PriorityRepository(crudRepository);
-        CategoryRepository categoryRepository = new CategoryRepository(crudRepository);
-        TaskRepository taskRepository = new TaskRepository(crudRepository);
+        HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
+        HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
+        HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
+        HibernateTaskRepository hibernateTaskRepository = new HibernateTaskRepository(crudRepository);
 
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        userRepository.add(user);
+        hibernateUserRepository.add(user);
 
         Priority priority = new Priority();
         priority.setName("not urgent");
         priority.setPosition(3);
-        priorityRepository.add(priority);
+        hibernatePriorityRepository.add(priority);
 
         Category category = new Category();
         category.setName("java");
-        categoryRepository.add(category);
+        hibernateCategoryRepository.add(category);
 
         Task task = new Task();
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
         task.setCategorization(List.of(category));
-        taskRepository.add(task);
+        hibernateTaskRepository.add(task);
 
         int id = task.getId();
-        taskRepository.delete(id);
+        hibernateTaskRepository.delete(id);
 
-        assertTrue(taskRepository.findById(id).isEmpty());
+        assertTrue(hibernateTaskRepository.findById(id).isEmpty());
     }
 }

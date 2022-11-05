@@ -9,10 +9,8 @@ import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.*;
 import ru.job4j.todo.util.SessionUser;
-import ru.job4j.todo.service.CategoryService;
-import ru.job4j.todo.service.PriorityService;
-import ru.job4j.todo.service.TaskService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -24,9 +22,9 @@ import java.util.Optional;
 @Controller
 @AllArgsConstructor
 public class TaskController {
-    private final TaskService taskService;
-    private final PriorityService priorityService;
-    private final CategoryService categoryService;
+    private final TaskService hibernateTaskService;
+    private final PriorityService hibernatePriorityService;
+    private final CategoryService hibernateCategoryService;
 
     @GetMapping("/todo")
     public String getTasks(@RequestParam (name = "done", required = false) Boolean done,
@@ -36,11 +34,11 @@ public class TaskController {
         model.addAttribute("delete", delete);
         model.addAttribute("user", user);
         if (done == null) {
-            model.addAttribute("tasks", taskService.findAll(user));
+            model.addAttribute("tasks", hibernateTaskService.findAll(user));
         } else if (done.equals(true)) {
-            model.addAttribute("tasks", taskService.findByDone(user, true));
+            model.addAttribute("tasks", hibernateTaskService.findByDone(user, true));
         } else if (done.equals(false)) {
-            model.addAttribute("tasks", taskService.findByDone(user, false));
+            model.addAttribute("tasks", hibernateTaskService.findByDone(user, false));
         }
         return "task/tasks";
     }
@@ -49,8 +47,8 @@ public class TaskController {
     public String addTask(Model model, HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         model.addAttribute("user", user);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", hibernateCategoryService.findAll());
+        model.addAttribute("priorities", hibernatePriorityService.findAll());
         return "task/addTask";
     }
 
@@ -61,18 +59,18 @@ public class TaskController {
                              @ModelAttribute(name = "categoriesId") List<String> categoriesId,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
-        Optional<Priority> optionalPriority = priorityService.findById(priorityId);
+        Optional<Priority> optionalPriority = hibernatePriorityService.findById(priorityId);
         if (optionalPriority.isEmpty()) {
             model.addAttribute("user", user);
             return "task/404";
         }
-        List<Category> categories = categoryService
+        List<Category> categories = hibernateCategoryService
                 .findByIds(categoriesId);
         task.setCreated(LocalDateTime.now().atZone(ZoneId.of(user.getUtc())));
         task.setCategorization(categories);
         task.setUser(user);
         task.setPriority(optionalPriority.get());
-        taskService.add(task);
+        hibernateTaskService.add(task);
         return "redirect:/todo";
     }
 
@@ -82,7 +80,7 @@ public class TaskController {
                            @RequestParam(
                                    name = "success", required = false
                            ) boolean success, HttpSession httpSession) {
-        Optional<Task> optionalTask = taskService.findById(id);
+        Optional<Task> optionalTask = hibernateTaskService.findById(id);
         User user = SessionUser.getSession(httpSession);
         if (optionalTask.isEmpty()) {
             model.addAttribute("user", user);
@@ -98,7 +96,7 @@ public class TaskController {
     @GetMapping("/changeStatus")
     public String changeStatus(Model model, @ModelAttribute("id") int id,
                                HttpSession httpSession) {
-        Optional<Task> optionalTask = taskService.findById(id);
+        Optional<Task> optionalTask = hibernateTaskService.findById(id);
         if (optionalTask.isEmpty()) {
             User user = SessionUser.getSession(httpSession);
             model.addAttribute("user", user);
@@ -107,9 +105,9 @@ public class TaskController {
         Task task = optionalTask.get();
         boolean done = task.isDone();
         if (done) {
-            taskService.updateDone(id, false);
+            hibernateTaskService.updateDone(id, false);
         } else {
-            taskService.updateDone(id, true);
+            hibernateTaskService.updateDone(id, true);
         }
         return "redirect:/openTask/" + id + "?success=true";
     }
@@ -119,7 +117,7 @@ public class TaskController {
                                   @ModelAttribute("id") int id,
                                   HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
-        Optional<Task> optionalTask = taskService.findById(id);
+        Optional<Task> optionalTask = hibernateTaskService.findById(id);
         if (optionalTask.isEmpty()) {
             model.addAttribute("user", user);
             return "task/404";
@@ -132,13 +130,13 @@ public class TaskController {
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute("task") Task task) {
-        taskService.updateDescription(task.getId(), task.getDescription());
+        hibernateTaskService.updateDescription(task.getId(), task.getDescription());
         return "redirect:/openTask/" + task.getId();
     }
 
     @GetMapping("/delete")
     public String delete(@ModelAttribute("id") int id) {
-        taskService.delete(id);
+        hibernateTaskService.delete(id);
         return "redirect:/todo?delete=true";
     }
 }

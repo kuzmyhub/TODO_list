@@ -1,30 +1,15 @@
 package ru.job4j.todo.service;
 
-import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
-import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Category;
-import ru.job4j.todo.repository.CategoryRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-@ThreadSafe
-@Service
-@AllArgsConstructor
-public class CategoryService {
+public interface CategoryService {
 
-    private CategoryRepository store;
+    Category add(Category category);
 
-    public Category add(Category category) {
-        return store.add(category);
-    }
+    List<Category> findByIds(List<String> ids);
 
-    public List<Category> findByIds(List<String> ids) {
-        return store.findByIds(ids);
-    }
+    List<Category> findAll();
 
-    public List<Category> findAll() {
-        return store.findAll();
-    }
 }

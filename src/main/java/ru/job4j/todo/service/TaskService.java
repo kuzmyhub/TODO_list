@@ -1,52 +1,25 @@
 package ru.job4j.todo.service;
 
-import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
-import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
-import ru.job4j.todo.repository.TaskRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@ThreadSafe
-@Service
-@AllArgsConstructor
-public class TaskService {
+public interface TaskService {
 
-    private final TaskRepository store;
+    Task add(Task task);
 
-    public Task add(Task task) {
-        Task addedTask = store.add(task);
-        if (addedTask.getUser() == null) {
-            throw new NoSuchElementException("Task user not found");
-        }
-        return addedTask;
-    }
+    List<Task> findAll(User user);
 
-    public List<Task> findAll(User user) {
-        return store.findAll(user);
-    }
+    List<Task> findByDone(User user, boolean done);
 
-    public List<Task> findByDone(User user, boolean done) {
-        return store.findByDone(user, done);
-    }
+    Optional<Task> findById(int id);
 
-    public Optional<Task> findById(int id) {
-        return store.findById(id);
-    }
+    void updateDone(int id, boolean done);
 
-    public void updateDone(int id, boolean done) {
-        store.updateDone(id, done);
-    }
+    void updateDescription(int id, String description);
 
-    public void updateDescription(int id, String description) {
-        store.updateDescription(id, description);
-    }
+    void delete(int id);
 
-    public void delete(int id) {
-        store.delete(id);
-    }
 }

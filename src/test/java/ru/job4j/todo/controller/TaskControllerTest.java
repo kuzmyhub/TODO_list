@@ -6,30 +6,27 @@ import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
-import ru.job4j.todo.service.CategoryService;
-import ru.job4j.todo.service.PriorityService;
-import ru.job4j.todo.service.TaskService;
-import ru.job4j.todo.util.SessionUser;
+import ru.job4j.todo.service.HibernateCategoryService;
+import ru.job4j.todo.service.HibernatePriorityService;
+import ru.job4j.todo.service.HibernateTaskService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TaskControllerTest {
 
     @Test
     public void whenGetTasksThanGetAllTasks() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         HttpSession httpSession = mock(HttpSession.class);
@@ -47,11 +44,11 @@ class TaskControllerTest {
 
     @Test
     public void whenGetTasksThanGetTrueTasks() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         HttpSession httpSession = mock(HttpSession.class);
@@ -69,11 +66,11 @@ class TaskControllerTest {
 
     @Test
     public void whenGetTasksThanGetFalseTasks() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         HttpSession httpSession = mock(HttpSession.class);
@@ -91,11 +88,11 @@ class TaskControllerTest {
 
     @Test
     public void whenAddTask() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         HttpSession httpSession = mock(HttpSession.class);
@@ -109,8 +106,8 @@ class TaskControllerTest {
         priority.setPosition(3);
         List<Category> categories = List.of(category);
         List<Priority> priorities = List.of(priority);
-        when(categoryService.findAll()).thenReturn(categories);
-        when(priorityService.findAll()).thenReturn(priorities);
+        when(hibernateCategoryService.findAll()).thenReturn(categories);
+        when(hibernatePriorityService.findAll()).thenReturn(priorities);
         String expected = "task/addTask";
         String page = taskController.addTask(model, httpSession);
         verify(model).addAttribute("user", user);
@@ -121,11 +118,11 @@ class TaskControllerTest {
 
     @Test
     public void whenCreateTaskThanSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         Task task = new Task();
@@ -136,8 +133,8 @@ class TaskControllerTest {
         priority.setName("not urgent");
         Category category = new Category();
         category.setName("java");
-        when(priorityService.findById(priorityId)).thenReturn(Optional.of(priority));
-        when(categoryService.findByIds(categoriesId)).thenReturn(List.of(category));
+        when(hibernatePriorityService.findById(priorityId)).thenReturn(Optional.of(priority));
+        when(hibernateCategoryService.findByIds(categoriesId)).thenReturn(List.of(category));
         String expected = "redirect:/todo";
         String page = taskController.createTask(model, task, priorityId, categoriesId, httpSession);
         assertThat(page).isEqualTo(expected);
@@ -145,18 +142,18 @@ class TaskControllerTest {
 
     @Test
     public void whenCreateTaskThanNotSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         Task task = new Task();
         int priorityId = 1;
         List<String> categoriesId = List.of("1");
         HttpSession httpSession = mock(HttpSession.class);
-        when(priorityService.findById(priorityId)).thenReturn(Optional.empty());
+        when(hibernatePriorityService.findById(priorityId)).thenReturn(Optional.empty());
         String expected = "task/404";
         String page = taskController.createTask(model, task, priorityId, categoriesId, httpSession);
         assertThat(page).isEqualTo(expected);
@@ -164,11 +161,11 @@ class TaskControllerTest {
 
     @Test
     public void whenOpenTaskThenSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
@@ -178,7 +175,7 @@ class TaskControllerTest {
         User user = new User();
         user.setName("Гость");
         user.setUtc("UTC+3");
-        when(taskService.findById(id)).thenReturn(Optional.of(task));
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.of(task));
         String expected = "task/task";
         String page = taskController.openTask(model, id, success, httpSession);
         verify(model).addAttribute("task", task);
@@ -189,17 +186,17 @@ class TaskControllerTest {
 
     @Test
     public void whenOpenTaskThenNotSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
         boolean success = true;
         HttpSession httpSession = mock(HttpSession.class);
-        when(taskService.findById(id)).thenReturn(Optional.empty());
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.empty());
         String expected = "task/404";
         String page = taskController.openTask(model, id, success, httpSession);
         assertThat(expected).isEqualTo(page);
@@ -207,18 +204,18 @@ class TaskControllerTest {
 
     @Test
     public void whenChangeStatusThenSuccessToFalse() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
         HttpSession httpSession = mock(HttpSession.class);
         Task task = new Task();
         task.setDone(true);
-        when(taskService.findById(id)).thenReturn(Optional.of(task));
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.of(task));
         String expected = "redirect:/openTask/" + id + "?success=true";
         String page = taskController.changeStatus(model, id, httpSession);
         assertThat(page).isEqualTo(expected);
@@ -226,18 +223,18 @@ class TaskControllerTest {
 
     @Test
     public void whenChangeStatusThenSuccessToTrue() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
         HttpSession httpSession = mock(HttpSession.class);
         Task task = new Task();
         task.setDone(false);
-        when(taskService.findById(id)).thenReturn(Optional.of(task));
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.of(task));
         String expected = "redirect:/openTask/" + id + "?success=true";
         String page = taskController.changeStatus(model, id, httpSession);
         assertThat(page).isEqualTo(expected);
@@ -245,11 +242,11 @@ class TaskControllerTest {
 
     @Test
     public void whenChangeStatusThenNotSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
@@ -257,7 +254,7 @@ class TaskControllerTest {
         User user = new User();
         user.setName("Гость");
         user.setUtc("UTC+3");
-        when(taskService.findById(id)).thenReturn(Optional.empty());
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.empty());
         String expected = "task/404";
         String page = taskController.changeStatus(model, id, httpSession);
         verify(model).addAttribute("user", user);
@@ -266,11 +263,11 @@ class TaskControllerTest {
 
     @Test
     public void whenEditDescriptionThenSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
@@ -279,7 +276,7 @@ class TaskControllerTest {
         User user = new User();
         user.setName("Гость");
         user.setUtc("UTC+3");
-        when(taskService.findById(id)).thenReturn(Optional.of(task));
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.of(task));
         String expected = "task/editDescription";
         String page = taskController.editDescription(model, id, httpSession);
         verify(model).addAttribute("task", task);
@@ -289,11 +286,11 @@ class TaskControllerTest {
 
     @Test
     public void whenEditDescriptionThenNotSuccess() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Model model = mock(Model.class);
         int id = 1;
@@ -301,7 +298,7 @@ class TaskControllerTest {
         User user = new User();
         user.setName("Гость");
         user.setUtc("UTC+3");
-        when(taskService.findById(id)).thenReturn(Optional.empty());
+        when(hibernateTaskService.findById(id)).thenReturn(Optional.empty());
         String expected = "task/404";
         String page = taskController.editDescription(model, id, httpSession);
         verify(model).addAttribute("user", user);
@@ -310,11 +307,11 @@ class TaskControllerTest {
 
     @Test
     public void whenEdit() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         Task task = new Task();
         task.setId(1);
@@ -326,11 +323,11 @@ class TaskControllerTest {
 
     @Test
     public void whenDelete() {
-        TaskService taskService = mock(TaskService.class);
-        PriorityService priorityService = mock(PriorityService.class);
-        CategoryService categoryService = mock(CategoryService.class);
+        HibernateTaskService hibernateTaskService = mock(HibernateTaskService.class);
+        HibernatePriorityService hibernatePriorityService = mock(HibernatePriorityService.class);
+        HibernateCategoryService hibernateCategoryService = mock(HibernateCategoryService.class);
         TaskController taskController = new TaskController(
-                taskService, priorityService, categoryService
+                hibernateTaskService, hibernatePriorityService, hibernateCategoryService
         );
         int id = 1;
         String expected = "redirect:/todo?delete=true";

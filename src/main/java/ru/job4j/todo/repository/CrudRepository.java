@@ -13,10 +13,11 @@ import java.util.function.Function;
 
 @Component
 @AllArgsConstructor
-public class CrudRepository {
+public class CrudRepository implements Crud {
 
     private final SessionFactory sf;
 
+    @Override
     public void run(Consumer<Session> command) {
         tx(session -> {
                     command.accept(session);
@@ -25,6 +26,7 @@ public class CrudRepository {
         );
     }
 
+    @Override
     public void run(String query, Map<String, Object> args) {
         Consumer<Session> command = session -> {
             var sq = session
@@ -37,6 +39,7 @@ public class CrudRepository {
         run(command);
     }
 
+    @Override
     public <T> List<T> query(String query, Class<T> cl) {
         Function<Session, List<T>> command = session -> session
                 .createQuery(query, cl)
@@ -44,6 +47,7 @@ public class CrudRepository {
         return tx(command);
     }
 
+    @Override
     public <T> Optional<T> optional(String query, Class<T> cl, Map<String, Object> args) {
         Function<Session, Optional<T>> command = session -> {
             var sq = session
@@ -56,6 +60,7 @@ public class CrudRepository {
         return tx(command);
     }
 
+    @Override
     public <T> List<T> query(String query, Class<T> cl, Map<String, Object> args) {
         Function<Session, List<T>> command = session -> {
             var sq = session
@@ -68,6 +73,7 @@ public class CrudRepository {
         return tx(command);
     }
 
+    @Override
     public <T> T tx(Function<Session, T> command) {
         var session = sf.openSession();
         try (session) {
