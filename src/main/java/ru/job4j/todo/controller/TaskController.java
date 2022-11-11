@@ -67,7 +67,7 @@ public class TaskController {
         List<Category> categories = hibernateCategoryService
                 .findByIds(categoriesId);
         task.setCreated(LocalDateTime.now().atZone(ZoneId.of(user.getUtc())));
-        task.setCategorization(categories);
+        task.setCategories(categories);
         task.setUser(user);
         task.setPriority(optionalPriority.get());
         hibernateTaskService.add(task);

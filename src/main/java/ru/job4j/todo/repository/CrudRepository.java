@@ -15,7 +15,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class CrudRepository implements Crud {
 
-    private final SessionFactory sf;
+    private final SessionFactory sessionFactory;
 
     @Override
     public void run(Consumer<Session> command) {
@@ -75,7 +75,7 @@ public class CrudRepository implements Crud {
 
     @Override
     public <T> T tx(Function<Session, T> command) {
-        var session = sf.openSession();
+        var session = sessionFactory.openSession();
         try (session) {
             var tx = session.beginTransaction();
             T rsl = command.apply(session);
