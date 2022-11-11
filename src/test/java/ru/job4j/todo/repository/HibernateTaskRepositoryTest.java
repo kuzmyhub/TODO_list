@@ -20,21 +20,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateTaskRepositoryTest {
 
-    private static SessionFactory sf;
+    private static SessionFactory sessionFactory;
 
     @BeforeAll
     public static void createSessionFactory() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
-        sf = new MetadataSources(registry)
+        sessionFactory = new MetadataSources(registry)
                 .buildMetadata()
                 .buildSessionFactory();
     }
 
     @AfterEach
     public void cleanTable() {
-        Session session = sf.openSession();
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.createQuery(
                         "DELETE FROM Task"
@@ -58,7 +58,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTaskThenSetTaskId() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -84,7 +84,7 @@ class HibernateTaskRepositoryTest {
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
-        task.setCategorization(List.of(category));
+        task.setCategories(List.of(category));
         hibernateTaskRepository.add(task);
 
         int notExpectedId = 0;
@@ -94,7 +94,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTaskThenGetSomeTask() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -120,7 +120,7 @@ class HibernateTaskRepositoryTest {
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
-        task.setCategorization(List.of(category));
+        task.setCategories(List.of(category));
         hibernateTaskRepository.add(task);
 
         Task dbTask = hibernateTaskRepository
@@ -145,12 +145,12 @@ class HibernateTaskRepositoryTest {
         assertThat(dbTask.getUser()).isEqualTo(task.getUser());
         assertThat(dbTask.getPriority()).isEqualTo(task.getPriority());
         assertThat(dbTask.getUser()).isEqualTo(task.getUser());
-        assertIterableEquals(dbTask.getCategorization(), task.getCategorization());
+        assertIterableEquals(dbTask.getCategories(), task.getCategories());
     }
 
     @Test
     public void whenAddSeveralTasksThenGetSameTasks() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -176,7 +176,7 @@ class HibernateTaskRepositoryTest {
         firstTask.setDescription("test");
         firstTask.setUser(userFirstTask);
         firstTask.setPriority(priorityFirstTask);
-        firstTask.setCategorization(List.of(categoryFirstTask));
+        firstTask.setCategories(List.of(categoryFirstTask));
         hibernateTaskRepository.add(firstTask);
 
         User userSecondTask = new User();
@@ -199,7 +199,7 @@ class HibernateTaskRepositoryTest {
         secondTask.setDescription("junit");
         secondTask.setUser(userSecondTask);
         secondTask.setPriority(prioritySecondTask);
-        secondTask.setCategorization(List.of(categorySecondTask));
+        secondTask.setCategories(List.of(categorySecondTask));
         hibernateTaskRepository.add(secondTask);
 
         Task firstDbTask = hibernateTaskRepository
@@ -227,7 +227,7 @@ class HibernateTaskRepositoryTest {
         assertThat(firstDbTask.getUser()).isEqualTo(firstTask.getUser());
         assertThat(firstDbTask.getPriority()).isEqualTo(firstTask.getPriority());
         assertThat(firstDbTask.getUser()).isEqualTo(firstTask.getUser());
-        assertIterableEquals(firstDbTask.getCategorization(), firstTask.getCategorization());
+        assertIterableEquals(firstDbTask.getCategories(), firstTask.getCategories());
 
         assertThat(secondDbTask.getId()).isEqualTo(secondTask.getId());
         assertThat(secondDbTask.getDescription()).isEqualTo(secondTask.getDescription());
@@ -247,12 +247,12 @@ class HibernateTaskRepositoryTest {
         assertThat(secondDbTask.getUser()).isEqualTo(secondTask.getUser());
         assertThat(secondDbTask.getPriority()).isEqualTo(secondTask.getPriority());
         assertThat(secondDbTask.getUser()).isEqualTo(secondTask.getUser());
-        assertIterableEquals(secondDbTask.getCategorization(), secondTask.getCategorization());
+        assertIterableEquals(secondDbTask.getCategories(), secondTask.getCategories());
     }
 
     @Test
     public void whenAddTasksThenGetByUser() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -278,7 +278,7 @@ class HibernateTaskRepositoryTest {
         firstTask.setDescription("test");
         firstTask.setUser(userFirstTask);
         firstTask.setPriority(priorityFirstTask);
-        firstTask.setCategorization(List.of(categoryFirstTask));
+        firstTask.setCategories(List.of(categoryFirstTask));
         hibernateTaskRepository.add(firstTask);
 
         User userSecondTask = new User();
@@ -301,7 +301,7 @@ class HibernateTaskRepositoryTest {
         secondTask.setDescription("junit");
         secondTask.setUser(userSecondTask);
         secondTask.setPriority(prioritySecondTask);
-        secondTask.setCategorization(List.of(categorySecondTask));
+        secondTask.setCategories(List.of(categorySecondTask));
         hibernateTaskRepository.add(secondTask);
 
         List<Task> dbTasks = hibernateTaskRepository.findAll(userFirstTask);
@@ -328,12 +328,12 @@ class HibernateTaskRepositoryTest {
         assertThat(dbTask.getUser()).isEqualTo(firstTask.getUser());
         assertThat(dbTask.getPriority()).isEqualTo(firstTask.getPriority());
         assertThat(dbTask.getUser()).isEqualTo(firstTask.getUser());
-        assertIterableEquals(dbTask.getCategorization(), firstTask.getCategorization());
+        assertIterableEquals(dbTask.getCategories(), firstTask.getCategories());
     }
 
     @Test
     public void whenAddTasksThenGetByDone() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -359,7 +359,7 @@ class HibernateTaskRepositoryTest {
         taskFalse.setDescription("test");
         taskFalse.setUser(user);
         taskFalse.setPriority(priority);
-        taskFalse.setCategorization(List.of(category));
+        taskFalse.setCategories(List.of(category));
         hibernateTaskRepository.add(taskFalse);
 
         Task taskTrue = new Task();
@@ -367,7 +367,7 @@ class HibernateTaskRepositoryTest {
         taskTrue.setUser(user);
         taskTrue.setDone(true);
         taskTrue.setPriority(priority);
-        taskTrue.setCategorization(List.of(category));
+        taskTrue.setCategories(List.of(category));
         hibernateTaskRepository.add(taskTrue);
 
         List<Task> dbTasks = hibernateTaskRepository
@@ -393,12 +393,12 @@ class HibernateTaskRepositoryTest {
         assertThat(dbTask.getUser()).isEqualTo(taskTrue.getUser());
         assertThat(dbTask.getPriority()).isEqualTo(taskTrue.getPriority());
         assertThat(dbTask.getUser()).isEqualTo(taskTrue.getUser());
-        assertIterableEquals(dbTask.getCategorization(), taskTrue.getCategorization());
+        assertIterableEquals(dbTask.getCategories(), taskTrue.getCategories());
     }
 
     @Test
     public void whenUpdateDone() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -424,7 +424,7 @@ class HibernateTaskRepositoryTest {
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
-        task.setCategorization(List.of(category));
+        task.setCategories(List.of(category));
         hibernateTaskRepository.add(task);
 
         hibernateTaskRepository.updateDone(task.getId(), true);
@@ -434,7 +434,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenUpdateDescription() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -460,7 +460,7 @@ class HibernateTaskRepositoryTest {
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
-        task.setCategorization(List.of(category));
+        task.setCategories(List.of(category));
         hibernateTaskRepository.add(task);
 
         String expected = "update description";
@@ -472,7 +472,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenDeleteTaskThenOptionalIsEmpty() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -498,7 +498,7 @@ class HibernateTaskRepositoryTest {
         task.setDescription("test");
         task.setUser(user);
         task.setPriority(priority);
-        task.setCategorization(List.of(category));
+        task.setCategories(List.of(category));
         hibernateTaskRepository.add(task);
 
         int id = task.getId();

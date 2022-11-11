@@ -8,19 +8,20 @@
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
-    <include file="scripts/001_create_users_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/002_create_tasks_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/003_create_priorities_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/004_initialization_priorities_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/005_update_tasks_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/006_initialization_priority_id_column_tasks_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/007_create_categories_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/008_initialization_categories_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/009_create_tasks_categories_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/010_initialization_task_id_column_tasks_categories_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/011_initialization_category_column_category_task_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/012_update_tasks_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/013_update_users_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/014_initialization_utc_column_users_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/015_update_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/001_ddl_create_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/002_ddl_create_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_ddl_create_priorities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_dml_initialization_priorities_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_update_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_dml_initialization_priority_id_column_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_create_categories_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_dml_initialization_categories_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_ddl_create_tasks_categories_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_dml_initialization_task_id_column_tasks_categories_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/011_dml_initialization_category_column_category_task_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/012_ddl_update_tasks_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/013_ddl_update_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/014_dml_initialization_utc_column_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/015_ddl_update_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/016_ddl_commenting.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

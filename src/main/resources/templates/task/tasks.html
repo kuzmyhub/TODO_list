@@ -91,7 +91,7 @@
             <td th:text="${task.done}"></td>
             <td th:text="${task.user.name}"></td>
             <td th:text="${task.priority.name}"></td>
-            <td th:each="category: ${task.categorization}" th:text="${category.name}"></td>
+            <td th:each="category: ${task.categories}" th:text="${category.name}"></td>
         </tr>
         </tbody>
     </table>

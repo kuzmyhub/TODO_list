@@ -14,21 +14,21 @@ import static org.assertj.core.api.Assertions.*;
 
 class HibernateUserRepositoryTest {
 
-    private static SessionFactory sf;
+    private static SessionFactory sessionFactory;
 
     @BeforeAll
     public static void createSessionFactory() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
-        sf = new MetadataSources(registry)
+        sessionFactory = new MetadataSources(registry)
                 .buildMetadata()
                 .buildSessionFactory();
     }
 
     @AfterEach
     public void cleanTable() {
-        Session session = sf.openSession();
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.createQuery(
                 "DELETE FROM User"
@@ -40,7 +40,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddUserThenSetUserId() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
@@ -54,7 +54,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddUserThenGetSameUser() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
@@ -72,7 +72,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddSeveralUsersThenGetSameUsers() {
-        CrudRepository crudRepository = new CrudRepository(sf);
+        CrudRepository crudRepository = new CrudRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User firstUser = new User();
         firstUser.setName("Kujo");

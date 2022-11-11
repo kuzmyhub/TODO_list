@@ -26,7 +26,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll(User user) {
         return crudRepository.query(
-                "FROM Task t JOIN FETCH t.categorization JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId",
+                "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId",
                 Task.class,
                 Map.of("fUserId", user.getId())
         );
@@ -35,7 +35,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public List<Task> findByDone(User user, boolean done) {
         return crudRepository.query(
-                "FROM Task t JOIN FETCH t.categorization JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId AND t.done = :fDone",
+                "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId AND t.done = :fDone",
                 Task.class,
                 Map.of("fUserId", user.getId(), "fDone", done)
         );
@@ -44,7 +44,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public Optional<Task> findById(int id) {
         return crudRepository.optional(
-                "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categorization WHERE t.id = :fId",
+                "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
                 Task.class,
                 Map.of("fId", id));
     }
