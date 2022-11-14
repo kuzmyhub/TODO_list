@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
    password VARCHAR NOT NULL
 );
 
-COMMENT ON TABLE todo_users IS 'Данные зарегистрированных пользователей';
-COMMENT ON COLUMN todo_users.id IS 'Идентификатор пользователя';
-COMMENT ON COLUMN todo_users.name IS 'Имя пользователя';
-COMMENT ON COLUMN todo_users.login IS 'Логин пользователя для авторизации';
-COMMENT ON COLUMN todo_users.password IS 'Пароль пользователя для авторизации';
+COMMENT ON TABLE users IS 'Данные зарегистрированных пользователей';
+COMMENT ON COLUMN users.id IS 'Идентификатор пользователя';
+COMMENT ON COLUMN users.name IS 'Имя пользователя';
+COMMENT ON COLUMN users.login IS 'Логин пользователя для авторизации';
+COMMENT ON COLUMN users.password IS 'Пароль пользователя для авторизации';
