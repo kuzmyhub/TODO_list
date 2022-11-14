@@ -23,5 +23,4 @@
     <include file="scripts/013_ddl_update_users_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_dml_initialization_utc_column_users_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_ddl_update_users_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/016_ddl_commenting.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
