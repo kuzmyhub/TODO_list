@@ -15,17 +15,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HibernateTaskRepository implements TaskRepository {
 
-    private final Crud crudRepository;
+    private final TemplateRepository hibernateTemplateRepository;
 
     @Override
     public Task add(Task task) {
-        crudRepository.run(session -> session.save(task));
+        hibernateTemplateRepository.run(session -> session.save(task));
         return task;
     }
 
     @Override
     public List<Task> findAll(User user) {
-        return crudRepository.query(
+        return hibernateTemplateRepository.query(
                 "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId",
                 Task.class,
                 Map.of("fUserId", user.getId())
@@ -34,7 +34,7 @@ public class HibernateTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> findByDone(User user, boolean done) {
-        return crudRepository.query(
+        return hibernateTemplateRepository.query(
                 "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId AND t.done = :fDone",
                 Task.class,
                 Map.of("fUserId", user.getId(), "fDone", done)
@@ -43,7 +43,7 @@ public class HibernateTaskRepository implements TaskRepository {
 
     @Override
     public Optional<Task> findById(int id) {
-        return crudRepository.optional(
+        return hibernateTemplateRepository.optional(
                 "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
                 Task.class,
                 Map.of("fId", id));
@@ -51,7 +51,7 @@ public class HibernateTaskRepository implements TaskRepository {
 
     @Override
     public void updateDone(int id, boolean done) {
-        crudRepository.run(
+        hibernateTemplateRepository.run(
                 "UPDATE Task SET done = :fDone WHERE id = :fId",
                 Map.of("fDone", done, "fId", id)
         );
@@ -59,7 +59,7 @@ public class HibernateTaskRepository implements TaskRepository {
 
     @Override
     public void updateDescription(int id, String description) {
-        crudRepository.run(
+        hibernateTemplateRepository.run(
                 "UPDATE Task SET description = :fDescription WHERE id = :fId",
                 Map.of("fDescription", description, "fId", id)
         );
@@ -67,7 +67,7 @@ public class HibernateTaskRepository implements TaskRepository {
 
     @Override
     public void delete(int id) {
-        crudRepository.run(
+        hibernateTemplateRepository.run(
                 "DELETE Task t WHERE t.id = :fId",
                 Map.of("fId", id)
         );

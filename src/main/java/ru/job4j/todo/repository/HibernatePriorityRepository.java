@@ -14,17 +14,23 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HibernatePriorityRepository implements PriorityRepository {
 
-    private Crud crudRepository;
+    private TemplateRepository hibernateTemplateRepository;
 
     @Override
-    public Priority add(Priority priority) {
-        crudRepository.run(session -> session.save(priority));
-        return priority;
+    public Optional<Priority> add(Priority priority) {
+        Optional<Priority> addingPriority;
+        try {
+            hibernateTemplateRepository.run(session -> session.save(priority));
+            addingPriority = Optional.of(priority);
+        } catch (Exception e) {
+            addingPriority = Optional.empty();
+        }
+        return addingPriority;
     }
 
     @Override
     public List<Priority> findAll() {
-        return crudRepository.query(
+        return hibernateTemplateRepository.query(
                 "FROM Priority",
                 Priority.class
         );
@@ -32,7 +38,7 @@ public class HibernatePriorityRepository implements PriorityRepository {
 
     @Override
     public Optional<Priority> findById(int id) {
-        return crudRepository.optional(
+        return hibernateTemplateRepository.optional(
                 "FROM Priority p WHERE p.id = :fId",
                 Priority.class,
                 Map.of("fId", id)

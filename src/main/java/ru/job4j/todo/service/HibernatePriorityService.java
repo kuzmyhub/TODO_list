@@ -17,7 +17,7 @@ public class HibernatePriorityService implements PriorityService {
     private PriorityRepository store;
 
     @Override
-    public Priority add(Priority priority) {
+    public Optional<Priority> add(Priority priority) {
         return store.add(priority);
     }
 

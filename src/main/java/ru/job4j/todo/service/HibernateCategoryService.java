@@ -7,6 +7,7 @@ import ru.job4j.todo.model.Category;
 import ru.job4j.todo.repository.CategoryRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @ThreadSafe
 @Service
@@ -16,12 +17,12 @@ public class HibernateCategoryService implements CategoryService {
     private CategoryRepository store;
 
     @Override
-    public Category add(Category category) {
+    public Optional<Category> add(Category category) {
         return store.add(category);
     }
 
     @Override
-    public List<Category> findByIds(List<String> ids) {
+    public List<Category> findByIds(List<Integer> ids) {
         return store.findByIds(ids);
     }
 

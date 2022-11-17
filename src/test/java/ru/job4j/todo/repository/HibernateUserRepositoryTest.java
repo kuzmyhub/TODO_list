@@ -40,7 +40,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddUserThenSetUserId() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
@@ -54,7 +54,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddUserThenGetSameUser() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User user = new User();
         user.setName("Kujo");
@@ -72,7 +72,7 @@ class HibernateUserRepositoryTest {
 
     @Test
     public void whenAddSeveralUsersThenGetSameUsers() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         User firstUser = new User();
         firstUser.setName("Kujo");

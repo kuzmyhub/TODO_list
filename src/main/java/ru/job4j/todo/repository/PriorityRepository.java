@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PriorityRepository {
 
-    Priority add(Priority priority);
+    Optional<Priority> add(Priority priority);
 
     List<Priority> findAll();
 

@@ -58,7 +58,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTaskThenSetTaskId() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -94,7 +94,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTaskThenGetSomeTask() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -150,7 +150,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddSeveralTasksThenGetSameTasks() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -252,7 +252,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTasksThenGetByUser() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -333,7 +333,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenAddTasksThenGetByDone() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -398,7 +398,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenUpdateDone() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -434,7 +434,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenUpdateDescription() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);
@@ -472,7 +472,7 @@ class HibernateTaskRepositoryTest {
 
     @Test
     public void whenDeleteTaskThenOptionalIsEmpty() {
-        CrudRepository crudRepository = new CrudRepository(sessionFactory);
+        TemplateRepository crudRepository = new HibernateTemplateRepository(sessionFactory);
         HibernateUserRepository hibernateUserRepository = new HibernateUserRepository(crudRepository);
         HibernatePriorityRepository hibernatePriorityRepository = new HibernatePriorityRepository(crudRepository);
         HibernateCategoryRepository hibernateCategoryRepository = new HibernateCategoryRepository(crudRepository);

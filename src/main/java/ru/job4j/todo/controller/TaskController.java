@@ -56,7 +56,7 @@ public class TaskController {
     public String createTask(Model model,
                              @ModelAttribute Task task,
                              @ModelAttribute(name = "priorityId") int priorityId,
-                             @ModelAttribute(name = "categoriesId") List<String> categoriesId,
+                             @ModelAttribute(name = "categoriesId") List<Integer> categoriesId,
                              HttpSession httpSession) {
         User user = SessionUser.getSession(httpSession);
         Optional<Priority> optionalPriority = hibernatePriorityService.findById(priorityId);

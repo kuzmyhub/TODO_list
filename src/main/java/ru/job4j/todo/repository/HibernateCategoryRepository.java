@@ -7,38 +7,41 @@ import ru.job4j.todo.model.Category;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ThreadSafe
 @Repository
 @AllArgsConstructor
 public class HibernateCategoryRepository  implements CategoryRepository {
 
-    private Crud crudRepository;
+    private TemplateRepository hibernateTemplateRepository;
 
     @Override
-    public Category add(Category category) {
-        crudRepository.run(session -> session.save(category));
-        return category;
+    public Optional<Category> add(Category category) {
+        Optional<Category> addingCategory;
+        try {
+            hibernateTemplateRepository.run(session -> session.save(category));
+            addingCategory = Optional.of(category);
+        } catch (Exception e) {
+            addingCategory = Optional.empty();
+        }
+        return addingCategory;
     }
 
     @Override
     public List<Category> findAll() {
-        return crudRepository.query(
+        return hibernateTemplateRepository.query(
                 "FROM Category",
                 Category.class
         );
     }
 
     @Override
-    public List<Category> findByIds(List<String> ids) {
-        List<Integer> intIds = ids
-                .stream()
-                .map(Integer::parseInt)
-                .toList();
-        return crudRepository.query(
+    public List<Category> findByIds(List<Integer> ids) {
+        return hibernateTemplateRepository.query(
                 "FROM Category c WHERE c.id in (:fIds)",
                 Category.class,
-                Map.of("fIds", intIds)
+                Map.of("fIds", ids)
         );
     }
 }

@@ -13,13 +13,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HibernateUserRepository implements UserRepository {
 
-    private final Crud crudRepository;
+    private final TemplateRepository hibernateTemplateRepository;
 
     @Override
     public Optional<User> add(User user) {
         Optional<User> addingUser;
         try {
-            crudRepository.run(session -> session.save(user));
+            hibernateTemplateRepository.run(session -> session.save(user));
             addingUser = Optional.of(user);
         } catch (Exception e) {
             addingUser = Optional.empty();
@@ -29,7 +29,7 @@ public class HibernateUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        return crudRepository.optional(
+        return hibernateTemplateRepository.optional(
                 "FROM User u WHERE u.login = :fLogin AND u.password = :fPassword",
                 User.class,
                 Map.of("fLogin", login, "fPassword", password)

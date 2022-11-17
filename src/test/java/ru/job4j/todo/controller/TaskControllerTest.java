@@ -127,7 +127,7 @@ class TaskControllerTest {
         Model model = mock(Model.class);
         Task task = new Task();
         int priorityId = 1;
-        List<String> categoriesId = List.of("1");
+        List<Integer> categoriesId = List.of(1);
         HttpSession httpSession = mock(HttpSession.class);
         Priority priority = new Priority();
         priority.setName("not urgent");
@@ -151,7 +151,7 @@ class TaskControllerTest {
         Model model = mock(Model.class);
         Task task = new Task();
         int priorityId = 1;
-        List<String> categoriesId = List.of("1");
+        List<Integer> categoriesId = List.of(1);
         HttpSession httpSession = mock(HttpSession.class);
         when(hibernatePriorityService.findById(priorityId)).thenReturn(Optional.empty());
         String expected = "task/404";
