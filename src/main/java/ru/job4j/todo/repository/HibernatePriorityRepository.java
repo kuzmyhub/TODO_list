@@ -16,6 +16,10 @@ public class HibernatePriorityRepository implements PriorityRepository {
 
     private TemplateRepository hibernateTemplateRepository;
 
+    private static final String SELECT = "FROM Priority p";
+
+    private static final String BY_ID = "WHERE p.id = :fId";
+
     @Override
     public Optional<Priority> add(Priority priority) {
         Optional<Priority> addingPriority;
@@ -31,7 +35,7 @@ public class HibernatePriorityRepository implements PriorityRepository {
     @Override
     public List<Priority> findAll() {
         return hibernateTemplateRepository.query(
-                "FROM Priority",
+                String.format("%s", SELECT),
                 Priority.class
         );
     }
@@ -39,7 +43,7 @@ public class HibernatePriorityRepository implements PriorityRepository {
     @Override
     public Optional<Priority> findById(int id) {
         return hibernateTemplateRepository.optional(
-                "FROM Priority p WHERE p.id = :fId",
+                String.format("%s %s", SELECT, BY_ID),
                 Priority.class,
                 Map.of("fId", id)
         );

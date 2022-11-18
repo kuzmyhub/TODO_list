@@ -3,7 +3,7 @@ package ru.job4j.todo.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 import ru.job4j.todo.model.User;
-import ru.job4j.todo.service.HibernateUserService;
+import ru.job4j.todo.service.SimpleUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,8 +17,8 @@ class UserControllerTest {
 
     @Test
     public void whenFormRegistrationUser() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         Model model = mock(Model.class);
         Boolean registrationSuccess = true;
         HttpSession httpSession = mock(HttpSession.class);
@@ -36,14 +36,14 @@ class UserControllerTest {
 
     @Test
     public void whenRegistrationThenSuccess() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        when(hibernateUserService.add(any(User.class))).thenReturn(Optional.of(user));
+        when(simpleUserService.add(any(User.class))).thenReturn(Optional.of(user));
         String expected = "redirect:/formRegistrationUser?registrationSuccess=true";
         String page = userController.registration(user);
         assertThat(page).isEqualTo(expected);
@@ -51,14 +51,14 @@ class UserControllerTest {
 
     @Test
     public void whenRegistrationThenNotSuccess() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         User user = new User();
         user.setName("Kujo");
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        when(hibernateUserService.add(any(User.class))).thenReturn(Optional.empty());
+        when(simpleUserService.add(any(User.class))).thenReturn(Optional.empty());
         String expected = "redirect:/formRegistrationUser?registrationSuccess=false";
         String page = userController.registration(user);
         assertThat(page).isEqualTo(expected);
@@ -66,8 +66,8 @@ class UserControllerTest {
 
     @Test
     public void whenFormLoginUser() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         Model model = mock(Model.class);
         Boolean loginSuccess = true;
         HttpSession httpSession = mock(HttpSession.class);
@@ -85,8 +85,8 @@ class UserControllerTest {
 
     @Test
     public void whenLoginThenSuccess() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpSession httpSession = mock(HttpSession.class);
         User user = new User();
@@ -94,7 +94,7 @@ class UserControllerTest {
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        when(hibernateUserService.findByLoginAndPassword(
+        when(simpleUserService.findByLoginAndPassword(
                 any(String.class), any(String.class)
         )).thenReturn(Optional.of(user));
         when(req.getSession()).thenReturn(httpSession);
@@ -105,8 +105,8 @@ class UserControllerTest {
 
     @Test
     public void whenLoginThenNotSuccess() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpSession httpSession = mock(HttpSession.class);
         User user = new User();
@@ -114,7 +114,7 @@ class UserControllerTest {
         user.setLogin("Jojo");
         user.setPassword("88005553535");
         user.setUtc("UTC+2");
-        when(hibernateUserService.findByLoginAndPassword(
+        when(simpleUserService.findByLoginAndPassword(
                 any(String.class), any(String.class)
         )).thenReturn(Optional.empty());
         when(req.getSession()).thenReturn(httpSession);
@@ -125,8 +125,8 @@ class UserControllerTest {
 
     @Test
     public void whenLogout() {
-        HibernateUserService hibernateUserService = mock(HibernateUserService.class);
-        UserController userController = new UserController(hibernateUserService);
+        SimpleUserService simpleUserService = mock(SimpleUserService.class);
+        UserController userController = new UserController(simpleUserService);
         HttpSession httpSession = mock(HttpSession.class);
         String expected = "redirect:/formLoginUser";
         String page = userController.logout(httpSession);

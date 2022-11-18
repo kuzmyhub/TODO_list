@@ -16,6 +16,10 @@ public class HibernateCategoryRepository  implements CategoryRepository {
 
     private TemplateRepository hibernateTemplateRepository;
 
+    private static final String SELECT = "FROM Category c";
+
+    private static final String BY_ID = "WHERE c.id in (:fIds)";
+
     @Override
     public Optional<Category> add(Category category) {
         Optional<Category> addingCategory;
@@ -31,7 +35,7 @@ public class HibernateCategoryRepository  implements CategoryRepository {
     @Override
     public List<Category> findAll() {
         return hibernateTemplateRepository.query(
-                "FROM Category",
+                String.format("%s", SELECT),
                 Category.class
         );
     }
@@ -39,7 +43,7 @@ public class HibernateCategoryRepository  implements CategoryRepository {
     @Override
     public List<Category> findByIds(List<Integer> ids) {
         return hibernateTemplateRepository.query(
-                "FROM Category c WHERE c.id in (:fIds)",
+                String.format("%s %s", SELECT, BY_ID),
                 Category.class,
                 Map.of("fIds", ids)
         );

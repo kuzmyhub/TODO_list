@@ -17,6 +17,26 @@ public class HibernateTaskRepository implements TaskRepository {
 
     private final TemplateRepository hibernateTemplateRepository;
 
+    private static final String SELECT = "FROM Task t"
+            + " JOIN FETCH t.categories"
+            + " JOIN FETCH t.priority"
+            + " JOIN FETCH t.user u WHERE u.id = :fUserId";
+
+    private static final String BY_DONE = "AND t.done = :fDone";
+
+    private static final String SELECT_BY_ID = "FROM Task t"
+            + " JOIN FETCH t.priority"
+            + " JOIN FETCH t.categories"
+            + " WHERE t.id = :fId";
+
+    private static final String UPDATE = "UPDATE Task SET";
+
+    private static final String DONE = "done = :fDone WHERE id = :fId";
+
+    private static final String DESCRIPTION = "description = :fDescription WHERE id = :fId";
+
+    private static final String DELETE = "DELETE Task t WHERE t.id = :fId";
+
     @Override
     public Task add(Task task) {
         hibernateTemplateRepository.run(session -> session.save(task));
@@ -26,7 +46,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll(User user) {
         return hibernateTemplateRepository.query(
-                "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId",
+                String.format("%s", SELECT),
                 Task.class,
                 Map.of("fUserId", user.getId())
         );
@@ -35,7 +55,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public List<Task> findByDone(User user, boolean done) {
         return hibernateTemplateRepository.query(
-                "FROM Task t JOIN FETCH t.categories JOIN FETCH t.priority JOIN FETCH t.user u WHERE u.id = :fUserId AND t.done = :fDone",
+                String.format("%s %s", SELECT, BY_DONE),
                 Task.class,
                 Map.of("fUserId", user.getId(), "fDone", done)
         );
@@ -44,7 +64,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public Optional<Task> findById(int id) {
         return hibernateTemplateRepository.optional(
-                "FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
+                String.format("%s", SELECT_BY_ID),
                 Task.class,
                 Map.of("fId", id));
     }
@@ -52,7 +72,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public void updateDone(int id, boolean done) {
         hibernateTemplateRepository.run(
-                "UPDATE Task SET done = :fDone WHERE id = :fId",
+                String.format("%s %s", UPDATE, DONE),
                 Map.of("fDone", done, "fId", id)
         );
     }
@@ -60,7 +80,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public void updateDescription(int id, String description) {
         hibernateTemplateRepository.run(
-                "UPDATE Task SET description = :fDescription WHERE id = :fId",
+                String.format("%s %s", UPDATE, DESCRIPTION),
                 Map.of("fDescription", description, "fId", id)
         );
     }
@@ -68,7 +88,7 @@ public class HibernateTaskRepository implements TaskRepository {
     @Override
     public void delete(int id) {
         hibernateTemplateRepository.run(
-                "DELETE Task t WHERE t.id = :fId",
+                String.format("%s", DELETE),
                 Map.of("fId", id)
         );
     }

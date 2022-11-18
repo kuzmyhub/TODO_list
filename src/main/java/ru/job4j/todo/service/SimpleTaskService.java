@@ -14,13 +14,13 @@ import java.util.Optional;
 @ThreadSafe
 @Service
 @AllArgsConstructor
-public class HibernateTaskService implements TaskService {
+public class SimpleTaskService implements TaskService {
 
-    private final TaskRepository store;
+    private final TaskRepository hibernateTaskRepository;
 
     @Override
     public Task add(Task task) {
-        Task addedTask = store.add(task);
+        Task addedTask = hibernateTaskRepository.add(task);
         if (addedTask.getUser() == null) {
             throw new NoSuchElementException("Task user not found");
         }
@@ -29,31 +29,31 @@ public class HibernateTaskService implements TaskService {
 
     @Override
     public List<Task> findAll(User user) {
-        return store.findAll(user);
+        return hibernateTaskRepository.findAll(user);
     }
 
     @Override
     public List<Task> findByDone(User user, boolean done) {
-        return store.findByDone(user, done);
+        return hibernateTaskRepository.findByDone(user, done);
     }
 
     @Override
     public Optional<Task> findById(int id) {
-        return store.findById(id);
+        return hibernateTaskRepository.findById(id);
     }
 
     @Override
     public void updateDone(int id, boolean done) {
-        store.updateDone(id, done);
+        hibernateTaskRepository.updateDone(id, done);
     }
 
     @Override
     public void updateDescription(int id, String description) {
-        store.updateDescription(id, description);
+        hibernateTaskRepository.updateDescription(id, description);
     }
 
     @Override
     public void delete(int id) {
-        store.delete(id);
+        hibernateTaskRepository.delete(id);
     }
 }

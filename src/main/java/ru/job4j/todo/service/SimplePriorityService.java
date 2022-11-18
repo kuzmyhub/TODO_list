@@ -12,22 +12,22 @@ import java.util.Optional;
 @ThreadSafe
 @Service
 @AllArgsConstructor
-public class HibernatePriorityService implements PriorityService {
+public class SimplePriorityService implements PriorityService {
 
-    private PriorityRepository store;
+    private PriorityRepository hibernatePriorityRepository;
 
     @Override
     public Optional<Priority> add(Priority priority) {
-        return store.add(priority);
+        return hibernatePriorityRepository.add(priority);
     }
 
     @Override
     public List<Priority> findAll() {
-        return store.findAll();
+        return hibernatePriorityRepository.findAll();
     }
 
     @Override
     public Optional<Priority> findById(int id) {
-        return store.findById(id);
+        return hibernatePriorityRepository.findById(id);
     }
 }

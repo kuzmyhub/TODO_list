@@ -11,17 +11,17 @@ import java.util.Optional;
 @ThreadSafe
 @Service
 @AllArgsConstructor
-public class HibernateUserService implements UserService {
+public class SimpleUserService implements UserService {
 
-    private UserRepository store;
+    private UserRepository hibernateUserRepository;
 
     @Override
     public Optional<User> add(User user) {
-        return store.add(user);
+        return hibernateUserRepository.add(user);
     }
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        return store.findByLoginAndPassword(login, password);
+        return hibernateUserRepository.findByLoginAndPassword(login, password);
     }
 }

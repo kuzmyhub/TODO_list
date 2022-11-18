@@ -12,22 +12,22 @@ import java.util.Optional;
 @ThreadSafe
 @Service
 @AllArgsConstructor
-public class HibernateCategoryService implements CategoryService {
+public class SimpleCategoryService implements CategoryService {
 
-    private CategoryRepository store;
+    private CategoryRepository hibernateCategoryRepository;
 
     @Override
     public Optional<Category> add(Category category) {
-        return store.add(category);
+        return hibernateCategoryRepository.add(category);
     }
 
     @Override
     public List<Category> findByIds(List<Integer> ids) {
-        return store.findByIds(ids);
+        return hibernateCategoryRepository.findByIds(ids);
     }
 
     @Override
     public List<Category> findAll() {
-        return store.findAll();
+        return hibernateCategoryRepository.findAll();
     }
 }
