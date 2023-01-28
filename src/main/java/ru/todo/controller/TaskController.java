@@ -9,7 +9,6 @@ import ru.todo.model.Category;
 import ru.todo.model.Priority;
 import ru.todo.model.Task;
 import ru.todo.model.User;
-import ru.job4j.todo.service.*;
 import ru.todo.service.CategoryService;
 import ru.todo.service.PriorityService;
 import ru.todo.service.TaskService;
